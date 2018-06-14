@@ -1,9 +1,12 @@
 import java.awt.BorderLayout;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Stack;
 
 import javax.swing.JButton;
@@ -22,7 +25,9 @@ public class Calculator extends JFrame implements ActionListener{
 	JPanel pane2= new JPanel(new GridLayout(4,4));
 	
 	JLabel lbl = new JLabel("0.0",JLabel.RIGHT);
-
+	JLabel clockLbl = new JLabel(" ",JLabel.CENTER);
+	Font fnt = new Font("굴림체",Font.BOLD, 12);
+	
 	public static void main(String[] args) {
 		new Calculator();
 	}
@@ -30,6 +35,12 @@ public class Calculator extends JFrame implements ActionListener{
 	public Calculator() {
 		initFrame();
 		setVisible(true);
+		DigitalClockPane pane = new DigitalClockPane();
+		add(pane,"South");
+		//Thread clock = new Thread(this);
+		Thread clock = new Thread(pane);
+		clock.start();
+		 
 	}
 	
 	//panel
@@ -43,13 +54,15 @@ public class Calculator extends JFrame implements ActionListener{
 		this.add(lbl,"North");
 		centerPane.add(pane1,"North");
 		centerPane.add(pane2,"Center");
-		this.add(centerPane);
+		this.add(centerPane,"Center");
+		//clockLbl.setFont(fnt);
+		//this.add(clockLbl,"South");
 		this.pack();
 	}
 	
 	//panel
 	void setPanel() {
-		//button
+		//button 붙이기
 		for(int i = 0 ; i<fBntLabels.length  ; i++) {
 			JButton bnt = new JButton(fBntLabels[i]);
 			bnt.addActionListener(this);
@@ -68,7 +81,7 @@ public class Calculator extends JFrame implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		String event = e.getActionCommand();
 		//clrBnt.getText();
-		System.out.println(e.getActionCommand());
+		
 		if(event.equals(fBntLabels[0])) {
 			backSpace();
 		}else if(event.equals(fBntLabels[1])) {
@@ -100,9 +113,9 @@ public class Calculator extends JFrame implements ActionListener{
 		}
 	}
 	
-	/* Add text at the label*/
+	/*text field에 붙이기*/
 	void append(char c){
-
+		// 연산자 연산자는 안됨 ! 처음부터 연산자여도 안됨
 		if(c=='=') {
 			lblStr+=c;
 			analyzeStr();
@@ -114,11 +127,11 @@ public class Calculator extends JFrame implements ActionListener{
 		}
 	}
 	
-	/* Check the order to add text to rule ! */
+	/*순서에 맞게 들어가도록 함 숫자 > 연산자(+,-,/,*)> 숫자 */
 	boolean isOrderRight(char c) {
 		boolean mIsRealNum = false;
 		int len = lblStr.length();
-		/*If the first letter is a number, append it*/
+		/*tfLabel에 아무 것도 없을 때, 입력 글자가 숫자면 들어가고 연산자나 dot이면 안들어감*/
 		if(len == 0) {
 			if(isNumber(c)) {
 				return true;
@@ -126,41 +139,38 @@ public class Calculator extends JFrame implements ActionListener{
 				return false;
 			}
 		}
-		
-		/* Operators and dot are not allowed to enter consecutively,
-		 * so the last character of the label is checked.
-		*/
+		/* 입력 글자가 연산자일때 이전 문자가 연산자나 dot이면 연속해서 들어 갈 수 없으므로
+		 * 마지막 글자 검사
+		 * */
 		char last = lblStr.substring(len-1).charAt(0);
-		if(isOperator(c)) { 
-			if(isNumber(last)) return true; //Operator consecutive
-			return false; //Not operator consecutive
+		if(isOperation(c)) { 
+			if(isNumber(last)) return true; //마지막 글자가 Operation 이였을 때
+			return false;
 		}else if(isDot(c)) {
-			if(!mIsRealNum && isNumber(last)) {
+			if(!mIsRealNum && isNumber(last) ) {
 				mIsRealNum = true;
 				return true;
 			}
 			return false;
 		}else{
-			//no matter if c is a number, append c to the label.
+			//c가 숫자면 상관없이 추가
 			mIsRealNum = false;
 			return true;
 		}
 	}
 	
-	//check if c is a point
 	boolean isDot(char c) {
 		if(c == '.') return true;
 		return false;
 	}
 	
-	//check if c is a operator
-	boolean isOperator(char c) {
+	boolean isOperation(char c) {
 		if(c=='+'||c=='-'||c=='/'||c=='*'||c=='=') {
 			return true;
 		}
 		return false;
 	}
-	//check if c is a number
+	
 	boolean isNumber(char c) {
 		for(int i = 1 ; i<=9 ; i++) {
 			if(c==i+48) {
@@ -169,59 +179,56 @@ public class Calculator extends JFrame implements ActionListener{
 		}
 		return false;
 	}
-	//Change the string to a number.
+	
 	Double toNumber(String token) {
 		return Double.parseDouble(token);
 	}
 	
-	//label analysis
+	//lbl 분석
 	void analyzeStr() {
 		char[] chArr = lblStr.toCharArray();
 		Stack<Double> numStack = new Stack<Double>();
 		Stack<Character> opStack = new Stack<Character>();
-		int currentIdx = 0; 
-		int startIdx = 0 ; //The start index of the number
+		int currentIdx = 0;
+		int startIdx = 0 ;
 		
+		//stack에 넣기
 		for(char c : chArr) {
-			if(isOperator(c)) {
-				//push a number on the stack.
-				//startIdx update
+			if(isOperation(c)) {
+				//숫자 넣기
+				//startIdx 갱신
 				numStack.push(toNumber(lblStr.substring(startIdx,currentIdx)));
 				startIdx = currentIdx+1; 
 				
-				//Calculate according to operator priority
-				if(opStack.isEmpty()) { //if the operator stack is empty, put it.
+				//연산자 우선순위에 따라 계산 후 스택에 넣기
+				if(opStack.isEmpty()) { //연산자 Stack이 비었다면 무조건 넣음
 					opStack.push(c);
+					//System.out.println("push operation1 , "+c);
 				}else {
 					char top = opStack.pop();
-					//Compare operator priorities.
-					//If greater than or equal to 1, -1 is returned.
+					//우선 순위 비교 *,/ > +,- > =
 					if(comparePriority(c,top) == 1) {
 							double op2 = numStack.pop();
 							double op1 = numStack.pop();
 							numStack.push(calculate(op1,op2,c));
 							opStack.push(top);
-							System.out.println("push operation2 , "+top);
+							//System.out.println("push operation2 , "+top);
 						}else {
 							double op2 = numStack.pop();
 							double op1 = numStack.pop();
 							numStack.push(calculate(op1,op2,top));
 							opStack.push(c);
-							System.out.println("push operation3 , "+c);
+							//System.out.println("push operation3 , "+c);
 						}
 					}
 				}
 				currentIdx++;
 			}
-			//When the parsing is finished, the result is displayed.
-			showResult(Double.toString(numStack.pop()));
+			double result=numStack.pop();
+			lblStr = "";
+			lbl.setText(Double.toString(result));
 	}
-	//show the result.
-	void showResult(String result){
-		lblStr = "";
-		lbl.setText(Double.toString(result));
-	}
-	//Compare the priorities : '*','/' > '+','-' > '='
+
 	int comparePriority(char c1 , char c2) {
 		if(c1 == '=') {
 			return -1;
@@ -247,4 +254,10 @@ public class Calculator extends JFrame implements ActionListener{
 			return 0;
 		}
 	}
+	public void setTime(String time) {
+		clockLbl.setText(time);
+		this.add(clockLbl,"South");
+		this.setVisible(true);
+	}
+
 }
