@@ -6,10 +6,9 @@ import companychat.util.Constant;
 
 public class RoomVO {
 	int type = Constant.ROOM;
-	
+	int count = 0;
 	private String user;
 	private String recv;
-	int count = 0;
 	ArrayList<MessageVO> list = new ArrayList<MessageVO>();
 	
 	public RoomVO() {
@@ -54,6 +53,7 @@ public class RoomVO {
 
 	public void setList(ArrayList<MessageVO> list) {
 		this.list = list;
+		count = list.size();
 	}
 	
 	public void add(MessageVO m) {

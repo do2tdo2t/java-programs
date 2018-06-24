@@ -8,17 +8,21 @@ import com.google.gson.JsonObject;
 
 import companychat.dto.EmployeeDTO;
 import companychat.dto.LoginDTO;
+import companychat.io.MessageReader;
+import companychat.io.MessageWriter;
 import companychat.io.Reader;
 import companychat.io.Writer;
 import companychat.parser.LoginParser;
 import companychat.parser.LogoutParser;
 import companychat.parser.MessageParser;
+import companychat.parser.RoomParser;
 import companychat.util.Constant;
 import companychat.util.Json;
 import companychat.vo.EmployeeVO;
 import companychat.vo.EmployeesVO;
 import companychat.vo.LoginVO;
 import companychat.vo.MessageVO;
+import companychat.vo.RoomVO;
 
 //듣는 역할
 public class ClientService implements Runnable {
@@ -70,9 +74,11 @@ public class ClientService implements Runnable {
 				}else if(type == Constant.EMPS && mIsLogin) {
 					sendEmployeesInfo();
 				}else if(type == Constant.MSG && mIsLogin) {
-					sendMessageToReceiver(MessageParser.parse(jsonObject));
+					//메시지 받음
+					MessageVO msg = MessageParser.parse(jsonObject);
+					sendMessageToReceiver(msg);
 				}else if(type == Constant.ROOM && mIsLogin) {
-					MessageVO message = MessageParser.parse(jsonObject);
+					sendBeforeChatData(RoomParser.parse(jsonObject));
 				}else if(type == Constant.LOGOUT) {
 					int id = LogoutParser.parse(jsonObject);
 					doLogout(id);
@@ -107,8 +113,20 @@ public class ClientService implements Runnable {
 			if(client.isLogin() && client.getUserId() == message.getReceiver()) {
 				log("client를 찾았습니다 ! "+ client.getUserId());
 				client.writer.write(message);
+				return ;
 			}
 		}
+		//로그인한 상태가 아닐때
+		writeMessageAtFile(message);
+	}
+	
+	void writeMessageAtFile(MessageVO message) {
+		MessageWriter.write(message);
+	}
+	
+	void sendBeforeChatData(RoomVO roomVO) {
+		String roomInfo = MessageReader.read(roomVO.getUser(), roomVO.getRecv());
+		writer.write(roomInfo);
 	}
 	
 	void doLogout(int id) {

@@ -15,6 +15,7 @@ import companychat.vo.EmployeesVO;
 import companychat.vo.LoginVO;
 import companychat.vo.LogoutVO;
 import companychat.vo.MessageVO;
+import companychat.vo.RoomVO;
 
 /*한번 만들어짐*/
 public final class Writer {
@@ -36,6 +37,11 @@ public final class Writer {
 	public void write(EmployeesVO emps) {
 		write(gson.toJson(emps));
 	}
+	
+	public void write(RoomVO room) {
+		write(gson.toJson(room));
+	}
+	
 	
 	public void write(LoginVO login) {
 		write(gson.toJson(login));

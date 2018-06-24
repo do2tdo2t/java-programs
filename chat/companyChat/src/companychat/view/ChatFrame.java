@@ -27,6 +27,7 @@ import companychat.vo.RoomVO;
 public class ChatFrame extends JFrame implements ActionListener,MouseListener,WindowListener{
 	//HashMap<String,RoomVO> roomMap = new HashMap<String,RoomVO>();
 	
+
 	String userInfo = "";
 	HashMap<String,Integer> empHm;
 	protected HashMap<String,Room> rooms = new HashMap<String,Room>();
@@ -102,43 +103,36 @@ public class ChatFrame extends JFrame implements ActionListener,MouseListener,Wi
 	public void mouseClicked(MouseEvent e) {
 		if(e.getSource().equals(jTree)) {
 			
-			//jTree 클릭시
-			DefaultMutableTreeNode node = (DefaultMutableTreeNode)jTree.getLastSelectedPathComponent();
-         	if (node == null) return;
-         	Object nodeInfo = node.getUserObject();
-         	log("jTree 클릭 .."+nodeInfo);
-         	showRoom(nodeInfo.toString(),userInfo);
 		}
 	}
 	
-	protected void showRoom(String nodeInfo, String userInfo) {
-		RoomVO roomVO = null;
+	protected void showRoom(RoomVO roomVO) {
 		Room room = null;
 		if(curRoom !=null) {
 			//log(curRoom.getRecvInfo()+"이전 프레임 감춤");
 			curRoom.setVisible(false);
 		}
 		
-		if(!rooms.containsKey(nodeInfo)) {
-			roomVO = new RoomVO(nodeInfo,userInfo);
-     		room = new Room(roomVO);
-     		curRoom = room;
-    		rooms.put(roomVO.getRecv(),curRoom);
-    		room.addSendBtn(sendBtn);
-    		chatPane.add(curRoom,"Center");
-    		//curRoom.setVisible(true);
-    		chatPane.revalidate();
-
-    		//log(curRoom.getRecvInfo()+"최초 생성");
-    		
-     	}else {
-     		
-     		curRoom = rooms.get(nodeInfo);
-     		//log(curRoom.getRecvInfo()+"프레임 다시 보이기");
-     		curRoom.restartRoom();
-     		chatPane.add(curRoom,"Center");
-    		curRoom.revalidate();
-     	}
+		room = new Room(roomVO);
+		room.addSendBtn(sendBtn);
+		rooms.put(roomVO.getRecv()+"/"+roomVO.getRecvId(), room);
+		chatPane.add(curRoom,"Center");
+		chatPane.revalidate();
+		curRoom = room;		
+	}
+	
+	protected void loadRoom(String nodeInfo) {
+		RoomVO roomVO = null;
+		Room room = null;
+		if(curRoom !=null) {
+			//log(curRoom.getRecvInfo()+"이전 프레임 감춤");
+			curRoom.setVisible(false);
+		}	
+     	curRoom = rooms.get(nodeInfo);
+     	//log(curRoom.getRecvInfo()+"프레임 다시 보이기");
+     	curRoom.restartRoom();
+     	chatPane.add(curRoom,"Center");
+    	curRoom.revalidate();
 	}
 	
 	

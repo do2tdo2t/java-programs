@@ -12,12 +12,17 @@ import companychat.vo.RoomVO;
 public class RoomParser {
 	
 	public static RoomVO parse(JsonObject jsonObject) {
-		RoomVO msgsVO = new RoomVO();
-		int count = jsonObject.get("count").getAsInt();
-		JsonArray jsonArray = jsonObject.getAsJsonArray("list");
 		JsonElement element = null;
 		JsonObject object = null;
 		MessageVO m = null;
+		
+		RoomVO roomVO = new RoomVO();
+		int count = jsonObject.get("count").getAsInt();
+		JsonArray jsonArray = jsonObject.getAsJsonArray("list");
+		
+		roomVO.setRecv(jsonObject.get("recv").getAsString());
+		roomVO.setUser(jsonObject.get("user").getAsString());
+		
 		ArrayList<MessageVO> list = new ArrayList<MessageVO>();
 		for(int i = 0 ; i<count ; i++) {
 			element = jsonArray.get(i);
@@ -29,8 +34,9 @@ public class RoomParser {
 			list.add(m);
 			System.out.println(m);
 		}
-		msgsVO.setList(list);
-		return msgsVO;
+
+		roomVO.setList(list);
+		return roomVO;
 		
 	}
 

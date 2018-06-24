@@ -37,7 +37,7 @@ public class Room extends Panel {
 		ta.setEditable(false);
 		ta.setBackground(Color.LIGHT_GRAY);
 	}
-	
+
 	public void addSendBtn(JButton sendBtn) {
 		inputPane.add(sendBtn,"East");
 	}

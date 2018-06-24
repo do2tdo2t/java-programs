@@ -5,6 +5,8 @@ import java.awt.event.WindowEvent;
 import java.io.IOException;
 import java.net.Socket;
 
+import javax.swing.tree.DefaultMutableTreeNode;
+
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
@@ -61,13 +63,25 @@ public class ChatClient extends ChatFrame implements Runnable{
 	public void mouseClicked(MouseEvent e) {
 		//채팅방(Room)열기 이벤트 발생
 		if(e.getButton() == 1 && e.getClickCount() > 1 && e.getSource().equals(jTree)) {
-			super.mouseClicked(e);
+			DefaultMutableTreeNode node = (DefaultMutableTreeNode)jTree.getLastSelectedPathComponent();
+         	if (node == null) return;
+         	String recvInfo = node.getUserObject().toString();
+         	if(!rooms.containsKey(recvInfo)) {
+         		sendRoomInfoToServer(recvInfo);
+         	}else {
+         		loadRoom(recvInfo);
+         	}
 		}else if(e.getButton() == 1 && sendBtn.equals(e.getSource())) {
 			//메시지 전송 실행. 1. 메시지 객체 생성(inputTa에서 읽어 들임) 2. 메시지 writer로 전송 3.inputlbl 갱신
 			MessageVO msg = getMessageInfo();
 			updateTextArea(msg.getContent());
 			writer.write(msg);
 		}	
+	}
+	
+	void sendRoomInfoToServer(String recvInfo) {
+		RoomVO roomVO = new RoomVO(user.getName()+'/'+user.getId(), recvInfo);
+		writer.write(roomVO);
 	}
 	
 
@@ -83,7 +97,8 @@ public class ChatClient extends ChatFrame implements Runnable{
 				if(type == Constant.MSG) {
 					whenRecvMessageFromSender(MessageParser.parse(jsonObject));
 				}else if(type == Constant.ROOM) {
-					RoomVO msgs = RoomParser.parse(jsonObject);
+					RoomVO roomVO = RoomParser.parse(jsonObject);
+					showRoom(roomVO);
 				}else if(type == Constant.EMPS) {
 					whenRecvEmployeeInfoFromServer(EmployeesParser.parse(jsonObject));
 				}else if(type == Constant.EMP) {
