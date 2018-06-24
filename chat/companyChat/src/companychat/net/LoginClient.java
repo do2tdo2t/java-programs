@@ -45,18 +45,24 @@ public class LoginClient extends LoginFrame implements Runnable{
 			
 			//연결 성공 로그인 정보 받아오기
 			String msg = reader.read();
-			JsonObject jsonObject= json.toJsonObject(msg);
-			int type = json.getInt(jsonObject , "type");
+			log("메시지를 받았습니다. "+msg);
+			if(msg!= null) {
+				JsonObject jsonObject= json.toJsonObject(msg);
+				int type = json.getInt(jsonObject , "type");
 			
-			if(type == Constant.EMP) {
-				EmployeeVO user = EmployeeParser.parse(jsonObject);
-				new ChatClient(user, server, writer, reader, json);
-				System.out.println(user);
-				//ClientChat 객체 생성 후 Thread로 실행 정보 넘겨 주기
-				new ChatDialog("로그인 되었습니다.");
+				if(type == Constant.EMP) {
+					EmployeeVO user = EmployeeParser.parse(jsonObject);
+					setVisible(false);
+					ChatClient cc = new ChatClient(user, server, writer, reader, json);
+					
+					
+					//ClientChat 객체 생성 후 Thread로 실행 정보 넘겨 주기
+					break;
+				}
 			}
-			
 		}
+		
+		new ChatDialog("로그인 되었습니다.");
 	}
 
 	//서버 연결, 객체 초기화
@@ -71,7 +77,6 @@ public class LoginClient extends LoginFrame implements Runnable{
 			writer = new Writer(server);
 			reader = new Reader(server);
 			json = new Json();
-			
 			setVisible(true);
 		}catch(UnknownHostException e){
 			e.printStackTrace();
@@ -88,7 +93,7 @@ public class LoginClient extends LoginFrame implements Runnable{
 			InetAddress ia;
 			try {
 				ia = InetAddress.getLocalHost();
-				sendLoginReq(id, pw,ia.getHostName());
+				sendLoginReq(id, pw,ia.toString().split("/")[1]);
 			} catch (UnknownHostException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
@@ -100,8 +105,11 @@ public class LoginClient extends LoginFrame implements Runnable{
 	void sendLoginReq(int id, String pw,String inetAddress) {
 		Gson gson = new Gson();
 		LoginVO loginInfo = new LoginVO(id,pw,inetAddress);
-		//json string으로 바꿔서 전송하기
+		log("send login req : "+gson.toJson(loginInfo));
 		writer.write(gson.toJson(loginInfo));
+	}
+	void log(String str) {
+		System.out.println("LoginClient..."+str);
 	}
 
 	

@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 
 import companychat.dto.EmployeeDTO;
@@ -33,6 +34,7 @@ public class ChatServer implements Runnable{
 			//thread 시작
 			Thread thread = new Thread(this);
 			thread.start();
+			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -51,14 +53,22 @@ public class ChatServer implements Runnable{
 
 	@Override
 	public void run(){
+		int i = 0;
+		
 		while(true) {
 			try {
 				socket = serverSocket.accept();
-				String inetAddress = socket.getInetAddress().toString();
-				log("connected ! at"+ inetAddress);
-				//연결
-				service = new ClientService(socket);
-				clientMap.put(socket.getInetAddress().toString(),service);
+				String inetAddress = socket.getInetAddress().toString()+i;
+				//아이피가 같아서 Map에 넣으면 최신걸로만 업데이트 됨. 나중에 들어온 클라이언트는 다른 클라이언트들 정보를 알수 X
+				i++;
+				
+				if(inetAddress== null) log("inetAddress null");
+				
+				service = new ClientService(socket,clientMap);
+				clientMap.put(inetAddress,service);
+				
+				addClientMapBroadcast(inetAddress,service);
+				
 			} catch (IOException e) {
 				System.out.println("Error. ChatServer : run()");
 				e.printStackTrace();
@@ -67,10 +77,11 @@ public class ChatServer implements Runnable{
 	}
 	
 	//로그인 정보 갱신 요청
-	public void broadcast(String id, ClientService clientService) {
-		   ArrayList<ClientService> clientList = (ArrayList<ClientService>) clientMap.values();
-			for(ClientService user : clientList) {
-				user.addClientMap(id,clientService);
+	public void addClientMapBroadcast(String inetAddress, ClientService clientService) {
+		   Collection<ClientService> clientList = (Collection<ClientService>) clientMap.values();
+		   if(clientList.size()==0) log("clientList null");
+		   for(ClientService cs : clientList) { 
+				cs.addClientMap(inetAddress,clientService);
 		}
 	}
 	

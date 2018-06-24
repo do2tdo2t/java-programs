@@ -5,13 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
 
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import com.google.gson.stream.JsonReader;
-import com.google.gson.stream.JsonToken;
 
-import companychat.parser.Parser;
 
 public final class Reader{
 	BufferedReader br = null;
@@ -26,18 +20,18 @@ public final class Reader{
 	}
 
 	public String read() {
-		String result = null;
 		try {
-			String line;
-			StringBuilder sb = new StringBuilder();
-			while((line = br.readLine())!=null) {
-				sb.append(line).append("\n");
-			}
-			result = sb.toString();
+
+			String result = br.readLine();
+			return result;
 		}catch(IOException e) {
 			e.printStackTrace();
 		}
-		return result;
+		return null;
+	}
+	
+	void log(String str) {
+		System.out.println("Reader..."+str);
 	}
 
 }

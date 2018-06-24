@@ -11,6 +11,7 @@ public class EmployeeDTO extends DBConnection {
 	//로그인 후 유저 정보 리턴
 	public EmployeeVO getUserInfo(int id) {
 		EmployeeVO emp = null;
+		dbClose();
 		getConnection();
 		try {
 			emp = new EmployeeVO();
@@ -23,10 +24,9 @@ public class EmployeeDTO extends DBConnection {
 			}
 			emp.setId(id);
 			emp.setName(rs.getString(2));
-			emp.setDeptId(rs.getInt(3));
+			emp.setDept(rs.getInt(3));
 			emp.setEmail(rs.getString(4));
 			emp.setTel(rs.getString(5));
-			System.out.println(emp);
 			dbClose();
 			return emp;
 		}catch(SQLException e) {
@@ -41,6 +41,7 @@ public class EmployeeDTO extends DBConnection {
 		int count = 0;
 		EmployeesVO emps = null;
 		EmployeeVO emp = null;
+		dbClose();
 		getConnection();
 		
 		try {
@@ -51,13 +52,11 @@ public class EmployeeDTO extends DBConnection {
 				emp = new EmployeeVO();
 				emp.setId(rs.getInt(1));
 				emp.setName(rs.getString(2));
-				emp.setDeptId(rs.getInt(3));
+				emp.setDept(rs.getInt(3));
 				emp.setEmail(rs.getString(4));
 				emp.setTel(rs.getString(5));
 				emps.add(emp);
 			}
-			
-			System.out.println(emps.getCount());
 			dbClose();
 			return emps;
 		}catch(SQLException e) {

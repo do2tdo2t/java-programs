@@ -5,15 +5,19 @@ import java.sql.SQLException;
 import companychat.vo.LoginVO;
 
 public class LoginDTO extends DBConnection {
-	private String selectSQL = "select * from employee where id = ? and pw = ?" ;
+	private final String ID = "DBConnection...";
+	
 	private String updateSQL = "insert into login values (?,1,?)";
 	private String deleteSQL = "delete from login where id = ?";
 	private String deleteAllSQL = "delete from login";
-	
+
 	public boolean doLogin(LoginVO loginInfo) {
+		String selectSQL = "select * from employee where id = ? and pw = ?";
 		int id= loginInfo.getId();
 		String pw =loginInfo.getPw();
+		log("id = "+id+", pw = "+pw);
 		String inetAddress = loginInfo.getInetAddress();
+		dbClose();
 		getConnection();
 		try {
 			psmt = conn.prepareStatement(selectSQL);
@@ -24,6 +28,7 @@ public class LoginDTO extends DBConnection {
 				dbClose();
 				return false;
 			}
+			
 			psmt = conn.prepareStatement(updateSQL);
 			psmt.setInt(1, id);
 			psmt.setString(2, inetAddress);
@@ -32,7 +37,8 @@ public class LoginDTO extends DBConnection {
 				dbClose();
 				return false;
 			}
-			System.out.println("db에 로그인 성공");
+			
+			log(ID+"db에 로그인 성공");
 			dbClose();
 			return true;
 		}catch(SQLException e) {
@@ -43,6 +49,7 @@ public class LoginDTO extends DBConnection {
 	}
 	
 	public boolean doLogout(int id) {
+		dbClose();
 		getConnection();
 		try {
 			psmt = conn.prepareStatement(deleteSQL);
@@ -52,7 +59,7 @@ public class LoginDTO extends DBConnection {
 				dbClose();
 				return false;
 			}
-			System.out.println("db에 로그아웃 성공");
+			log(ID+" 로그아웃 성공");
 			dbClose();
 			return true;
 		}catch(SQLException e) {
@@ -63,6 +70,7 @@ public class LoginDTO extends DBConnection {
 	}
 	
 	public boolean doAllLogout() {
+		dbClose();
 		getConnection();
 		try {
 			psmt = conn.prepareStatement(deleteAllSQL);
@@ -71,7 +79,7 @@ public class LoginDTO extends DBConnection {
 				dbClose();
 				return false;
 			}
-			System.out.println("db에 있는 모든 유저 로그아웃 성공");
+			log("모든 유저 로그아웃 성공");
 			dbClose();
 			return true;
 		}catch(SQLException e) {
@@ -82,6 +90,7 @@ public class LoginDTO extends DBConnection {
 	}
 	
 	public String getLoginInfo(int id){
+		dbClose();
 		String selectSQL = "select * from login where id = ?";
 		getConnection();
 		String inetAddress = null;
@@ -101,6 +110,10 @@ public class LoginDTO extends DBConnection {
 			dbClose();
 			return null;
 		}
+	}
+	
+	void log(String str) {
+		System.out.println("LoginDTO..."+str);
 	}
 
 }

@@ -10,6 +10,9 @@ public class MessageParser {
 		MessageVO msg = new MessageVO();
 		msg.setSender(jsonObject.get("sender").getAsInt());
 		msg.setReceiver(jsonObject.get("receiver").getAsInt());
+		msg.setSenderName(jsonObject.get("senderName").getAsString());
+		msg.setRecvName(jsonObject.get("recvName").getAsString());
+		msg.setWriteDate(jsonObject.get("writeDate").getAsString());
 		msg.setContent(jsonObject.get("content").getAsString());
 		return msg;
 	}

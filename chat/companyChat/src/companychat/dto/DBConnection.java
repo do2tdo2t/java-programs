@@ -8,9 +8,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class DBConnection {
-	//jdbc:oracle:thin@ip:port(1521), 전역변수(GOOTTDB)
-	String url = "jdbc:oracle:thin:@localhost:1521:GOOTTDB";
-	String user = "scott";
+	//jdbc:oracle:thin@ip:port(1521), SID 전역변수(GOOTTDB)
+	String url = "jdbc:oracle:thin:@localhost:1521:XE";
+	String user = "system";
 	String pw = "tiger";
 	Connection conn = null;
 	PreparedStatement psmt = null;
@@ -36,7 +36,6 @@ public class DBConnection {
 	}
 	
 	public void dbClose() {
-		System.out.println("db close....");
 		try {
 			if(rs!=null) if(!rs.isClosed()) rs.close();
 			if(psmt!=null) if(!psmt.isClosed()) psmt.close();

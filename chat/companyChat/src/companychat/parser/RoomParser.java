@@ -7,12 +7,12 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import companychat.vo.MessageVO;
-import companychat.vo.MessagesVO;
+import companychat.vo.RoomVO;
 
-public class MessagesParser {
+public class RoomParser {
 	
-	public static MessagesVO parse(JsonObject jsonObject) {
-		MessagesVO msgsVO = new MessagesVO();
+	public static RoomVO parse(JsonObject jsonObject) {
+		RoomVO msgsVO = new RoomVO();
 		int count = jsonObject.get("count").getAsInt();
 		JsonArray jsonArray = jsonObject.getAsJsonArray("list");
 		JsonElement element = null;
@@ -29,7 +29,6 @@ public class MessagesParser {
 			list.add(m);
 			System.out.println(m);
 		}
-		msgsVO.setCount(count);
 		msgsVO.setList(list);
 		return msgsVO;
 		

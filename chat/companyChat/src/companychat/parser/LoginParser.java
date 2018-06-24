@@ -11,7 +11,7 @@ public class LoginParser {
 		LoginVO l =  new LoginVO();
 		l.setId(jsonObject.get("id").getAsInt());
 		l.setPw(jsonObject.get("pw").getAsString());
-		l.setInetAddress(jsonObject.get("inetAdress").getAsString());
+		l.setInetAddress(jsonObject.get("inetAddress").getAsString());
 		return  l;
 	}
 

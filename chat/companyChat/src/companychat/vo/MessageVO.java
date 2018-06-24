@@ -6,7 +6,9 @@ import companychat.util.*;
 /*file에 쓰여질 message*/
 public class MessageVO{
 	private int type = Constant.MSG;
+	private String senderName;
 	private int sender; //id
+	private String recvName;
 	private int receiver; //id
 	private String content;
 	private String writeDate = DateTime.getDatetime();
@@ -15,13 +17,31 @@ public class MessageVO{
 		
 	}
 	
-	public MessageVO(int sender,int receiver ,String content) {
+	public MessageVO(int sender,int receiver ,String senderName, String recvName ,String content) {
 		this.sender = sender;
 		this.receiver = receiver;
 		this.content = content;
+		this.senderName = senderName;
+		this.recvName = recvName;
 		this.writeDate = DateTime.getDatetime();
 	}
 	
+	public String getRecvName() {
+		return recvName;
+	}
+
+	public void setRecvName(String recvName) {
+		this.recvName = recvName;
+	}
+
+	public String getSenderName() {
+		return senderName;
+	}
+
+	public void setSenderName(String senderName) {
+		this.senderName = senderName;
+	}
+
 	public int getSender() {
 		return sender;
 	}

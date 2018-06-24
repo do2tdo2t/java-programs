@@ -6,11 +6,14 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.Socket;
 
+import javax.swing.plaf.basic.BasicInternalFrameTitlePane.SystemMenuBar;
+
 import com.google.gson.Gson;
 
 import companychat.vo.EmployeeVO;
 import companychat.vo.EmployeesVO;
 import companychat.vo.LoginVO;
+import companychat.vo.LogoutVO;
 import companychat.vo.MessageVO;
 
 /*한번 만들어짐*/
@@ -38,13 +41,18 @@ public final class Writer {
 		write(gson.toJson(login));
 	}
 	
+	public void write(LogoutVO logout) {
+		write(gson.toJson(logout));
+	}
+	
 	public void write(MessageVO msg) {
 		write(gson.toJson(msg));
 	}
 	
 	public void write(String msg) {
+		//System.out.println("Witer 서버로 요청...");
 		//message 객체를 json 스트링으로 변경해서 서버에 보냄.
-		pw.print(msg);
+		pw.println(msg);
 		pw.flush();
 	}
 	
