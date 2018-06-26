@@ -67,7 +67,7 @@ public class ChatClient extends ChatFrame implements Runnable{
          	if (node == null) return;
          	String recvInfo = node.getUserObject().toString();
          	if(!rooms.containsKey(recvInfo)) {
-         		sendRoomInfoToServer(recvInfo);
+         		sendReqRoomInfoToServer(recvInfo);
          	}else {
          		loadRoom(recvInfo);
          	}
@@ -79,7 +79,7 @@ public class ChatClient extends ChatFrame implements Runnable{
 		}	
 	}
 	
-	void sendRoomInfoToServer(String recvInfo) {
+	void sendReqRoomInfoToServer(String recvInfo) {
 		RoomVO roomVO = new RoomVO(user.getName()+'/'+user.getId(), recvInfo);
 		writer.write(roomVO);
 	}
@@ -92,7 +92,7 @@ public class ChatClient extends ChatFrame implements Runnable{
 			String msg = reader.read();
 			log(" 메시지를 받았습니다. "+msg);
 			if(json == null) json = new Json();
-				JsonObject jsonObject= json.toJsonObject(msg);
+			JsonObject jsonObject= json.toJsonObject(msg);
 				int type = json.getInt(jsonObject , "type");
 				if(type == Constant.MSG) {
 					whenRecvMessageFromSender(MessageParser.parse(jsonObject));
@@ -104,15 +104,13 @@ public class ChatClient extends ChatFrame implements Runnable{
 				}else if(type == Constant.EMP) {
 					EmployeeVO emp = EmployeeParser.parse(jsonObject);
 				}
-			
-		}
+			}
 	}
 	
 	void whenRecvMessageFromSender(MessageVO message) {
-		if(curRoom.getRecvId()==message.getSender()) {
-			log(curRoom.getRecvInfo()+" update ui...");
-			updateTextArea(message);
-		}
+		log(message.getRecvName()+" update ui...");
+		updateTextArea(message);
+		
 	}
 	
 	void whenRecvEmployeeInfoFromServer(EmployeesVO emps) {

@@ -15,8 +15,7 @@ public class Json {
 
 	//string
 	public JsonObject toJsonObject(String jsonStr) {
-		JsonObject jsonObject = parser.parse(jsonStr).getAsJsonObject();
-		return jsonObject;
+		return parser.parse(jsonStr).getAsJsonObject();
 	}
 
 	

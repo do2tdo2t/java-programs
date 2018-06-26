@@ -1,6 +1,7 @@
 package companychat.service;
 
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 
@@ -69,6 +70,7 @@ public class ClientService implements Runnable {
 			if(resp !=null) {
 				JsonObject jsonObject= json.toJsonObject(resp);
 				int type = json.getInt(jsonObject, "type");
+				
 				if(type == Constant.LOGIN) {
 					doLogin(LoginParser.parse(jsonObject));
 				}else if(type == Constant.EMPS && mIsLogin) {
@@ -77,8 +79,10 @@ public class ClientService implements Runnable {
 					//메시지 받음
 					MessageVO msg = MessageParser.parse(jsonObject);
 					sendMessageToReceiver(msg);
+					writeMessageAtMyFile(msg);
 				}else if(type == Constant.ROOM && mIsLogin) {
 					sendBeforeChatData(RoomParser.parse(jsonObject));
+					
 				}else if(type == Constant.LOGOUT) {
 					int id = LogoutParser.parse(jsonObject);
 					doLogout(id);
@@ -112,21 +116,33 @@ public class ClientService implements Runnable {
 		for(ClientService client : clients) {
 			if(client.isLogin() && client.getUserId() == message.getReceiver()) {
 				log("client를 찾았습니다 ! "+ client.getUserId());
-				client.writer.write(message);
+				client.writer.write(message); 
 				return ;
 			}
 		}
 		//로그인한 상태가 아닐때
-		writeMessageAtFile(message);
+		writeMessageAtRecvFile(message);
 	}
 	
-	void writeMessageAtFile(MessageVO message) {
-		MessageWriter.write(message);
+	void writeMessageAtRecvFile(MessageVO message) {
+		//상대방 폴더에 쓰기
+		MessageWriter.write(Integer.toString(message.getReceiver()),Integer.toString(message.getSender()),message);
 	}
+	void writeMessageAtMyFile(MessageVO message) {
+		//상대방 폴더에 쓰기
+		MessageWriter.write(Integer.toString(message.getSender()),Integer.toString(message.getReceiver()),message);
+	}
+	
 	
 	void sendBeforeChatData(RoomVO roomVO) {
-		String roomInfo = MessageReader.read(roomVO.getUser(), roomVO.getRecv());
-		writer.write(roomInfo);
+		//Room 가져옴
+		ArrayList<MessageVO> messageList = MessageReader.read(roomVO.getUserId()+"", roomVO.getRecvId()+"");
+		if(messageList !=null) {
+			roomVO.setList(messageList);
+		}
+	
+			writer.write(roomVO);
+		
 	}
 	
 	void doLogout(int id) {

@@ -22,19 +22,15 @@ public class RoomParser {
 		
 		roomVO.setRecv(jsonObject.get("recv").getAsString());
 		roomVO.setUser(jsonObject.get("user").getAsString());
-		
 		ArrayList<MessageVO> list = new ArrayList<MessageVO>();
 		for(int i = 0 ; i<count ; i++) {
 			element = jsonArray.get(i);
 			object = element.getAsJsonObject();
-			m = new MessageVO();
-			m.setSender(object.get("sender").getAsInt());
-			m.setReceiver(object.get("receiver").getAsInt());
-			m.setContent(object.get("content").getAsString());
+			m = MessageParser.parse(object);
 			list.add(m);
-			System.out.println(m);
+			System.out.println("RoomParser....."+m);
 		}
-
+		
 		roomVO.setList(list);
 		return roomVO;
 		

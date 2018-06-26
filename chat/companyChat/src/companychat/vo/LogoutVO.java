@@ -5,6 +5,7 @@ import companychat.util.Constant;
 public class LogoutVO {
 	int type = Constant.LOGOUT;
 	int id;
+	
 
 	public LogoutVO() {
 		

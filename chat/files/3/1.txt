@@ -1,0 +1,2 @@
+{"type":101,"senderName":"김영삼","sender":1,"recvName":"박나인","receiver":3,"content":"나인씨 안녕하세요","writeDate":"2018-06-25-06-04-51"}
+{"type":101,"senderName":"김영삼","sender":1,"recvName":"박나인","receiver":3,"content":"메시지 보냅니다.","writeDate":"2018-06-25-06-04-55"}

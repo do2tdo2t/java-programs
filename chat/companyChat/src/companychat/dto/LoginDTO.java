@@ -13,6 +13,7 @@ public class LoginDTO extends DBConnection {
 
 	public boolean doLogin(LoginVO loginInfo) {
 		String selectSQL = "select * from employee where id = ? and pw = ?";
+		String selectSQL2 = "select * from login where id = ?";
 		int id= loginInfo.getId();
 		String pw =loginInfo.getPw();
 		log("id = "+id+", pw = "+pw);
@@ -27,6 +28,16 @@ public class LoginDTO extends DBConnection {
 			if(!rs.next()) {
 				dbClose();
 				return false;
+			}
+			
+			//이미 로그인 중인지 확인하기
+			rs = null;
+			psmt = conn.prepareStatement(selectSQL2);
+			psmt.setInt(1, id);
+			rs = psmt.executeQuery();
+			if(rs.next()) {
+				dbClose();
+				return true;
 			}
 			
 			psmt = conn.prepareStatement(updateSQL);

@@ -85,11 +85,10 @@ public class MessageVO{
 
 	@Override
 	public String toString() {
-		return "MessageVO [type=" + type + ", sender=" + sender + ", receiver=" + receiver + ", content=" + content
-				+ ", writeDate=" + writeDate + "]";
+		return "MessageVO [type=" + type + ", senderName=" + senderName + ", sender=" + sender + ", recvName="
+				+ recvName + ", receiver=" + receiver + ", content=" + content + ", writeDate=" + writeDate + "]";
 	}
-	
-	
+
 	
 
 }

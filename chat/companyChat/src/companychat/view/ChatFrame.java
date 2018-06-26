@@ -2,6 +2,8 @@ package companychat.view;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -10,6 +12,7 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.util.HashMap;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -25,9 +28,6 @@ import companychat.vo.MessageVO;
 import companychat.vo.RoomVO;
 
 public class ChatFrame extends JFrame implements ActionListener,MouseListener,WindowListener{
-	//HashMap<String,RoomVO> roomMap = new HashMap<String,RoomVO>();
-	
-
 	String userInfo = "";
 	HashMap<String,Integer> empHm;
 	protected HashMap<String,Room> rooms = new HashMap<String,Room>();
@@ -41,6 +41,9 @@ public class ChatFrame extends JFrame implements ActionListener,MouseListener,Wi
 	protected JTree jTree = null;
 	DefaultMutableTreeNode top = null;
 	protected JButton sendBtn = new JButton("send");
+	//아이콘 붙이기
+	Toolkit toolkit = Toolkit.getDefaultToolkit();
+	Image img = toolkit.getImage("./img/titleIcon.png");
 	
 	public ChatFrame() {
 		this.setTitle("chat program");
@@ -109,16 +112,22 @@ public class ChatFrame extends JFrame implements ActionListener,MouseListener,Wi
 	protected void showRoom(RoomVO roomVO) {
 		Room room = null;
 		if(curRoom !=null) {
-			//log(curRoom.getRecvInfo()+"이전 프레임 감춤");
 			curRoom.setVisible(false);
 		}
 		
 		room = new Room(roomVO);
+		curRoom = room;	
+		
+		//message 붙이기
+		for(MessageVO msg : roomVO.getList()) {
+			updateTextArea(msg);
+		}
 		room.addSendBtn(sendBtn);
 		rooms.put(roomVO.getRecv()+"/"+roomVO.getRecvId(), room);
+		
 		chatPane.add(curRoom,"Center");
 		chatPane.revalidate();
-		curRoom = room;		
+			
 	}
 	
 	protected void loadRoom(String nodeInfo) {
@@ -150,6 +159,7 @@ public class ChatFrame extends JFrame implements ActionListener,MouseListener,Wi
 		//화면 업데이트
 		String head = msg.getSenderName()+"/"+msg.getSender();
 		String str = msg.getContent();
+		System.out.println(head + " " + str );
 		curRoom.setTextArea(head,str);
 		curRoom.setInputlbl("");
 	}

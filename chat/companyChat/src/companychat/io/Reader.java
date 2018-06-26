@@ -30,6 +30,7 @@ public final class Reader{
 		return null;
 	}
 	
+	
 	void log(String str) {
 		System.out.println("Reader..."+str);
 	}

@@ -1,11 +1,11 @@
 package companychat.net;
 
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowEvent;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
-import java.util.EventObject;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -26,27 +26,29 @@ public class LoginClient extends LoginFrame implements Runnable{
 	Writer writer = null;
 	Reader reader = null;
 	Json json = null;
-	
+	boolean flag = false;
+	Thread thread = null;
 	public static void main(String args[]) {
 		new LoginClient();
 	
 	}
 	
 	public LoginClient() {
-		Thread thread = new Thread(this);
+		thread = new Thread(this);
+		flag = true;
 		thread.start();
 	}
 
 	@Override
 	public void run() {
-		while(true) {
+		while(flag) {
 			//서버 연결 시도
 			connectServer();
 			
 			//연결 성공 로그인 정보 받아오기
 			String msg = reader.read();
 			log("메시지를 받았습니다. "+msg);
-			if(msg!= null) {
+			if(msg!= null && msg != "") {
 				JsonObject jsonObject= json.toJsonObject(msg);
 				int type = json.getInt(jsonObject , "type");
 			
@@ -54,8 +56,7 @@ public class LoginClient extends LoginFrame implements Runnable{
 					EmployeeVO user = EmployeeParser.parse(jsonObject);
 					setVisible(false);
 					ChatClient cc = new ChatClient(user, server, writer, reader, json);
-					
-					
+									
 					//ClientChat 객체 생성 후 Thread로 실행 정보 넘겨 주기
 					break;
 				}
@@ -110,6 +111,22 @@ public class LoginClient extends LoginFrame implements Runnable{
 	}
 	void log(String str) {
 		System.out.println("LoginClient..."+str);
+	}
+	
+	@Override
+	public void windowClosing(WindowEvent e) {
+		try {
+			flag = false;
+			if(server!= null) server.close();
+			if(thread!=null)thread.join();
+		} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+		}catch (InterruptedException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
 	}
 
 	
