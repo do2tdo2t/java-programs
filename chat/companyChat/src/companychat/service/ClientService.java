@@ -1,9 +1,8 @@
 package companychat.service;
 
 import java.net.Socket;
+import java.net.SocketException;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
 
 import com.google.gson.JsonObject;
 
@@ -13,6 +12,7 @@ import companychat.io.MessageReader;
 import companychat.io.MessageWriter;
 import companychat.io.Reader;
 import companychat.io.Writer;
+import companychat.net.ChatServer;
 import companychat.parser.LoginParser;
 import companychat.parser.LogoutParser;
 import companychat.parser.MessageParser;
@@ -34,14 +34,12 @@ public class ClientService implements Runnable {
 	public Writer writer = null;
 	public Reader reader = null;
 	Json json = null;
-	private Socket clientSocket = null;
-	HashMap<String, ClientService> clientMap = new HashMap<String,ClientService>();
+
+	//HashMap<String, ClientService> clientMap = new HashMap<String,ClientService>();
 	Thread thread = null;
 	boolean flag = false;
 	
-	public ClientService(Socket clientSocket,HashMap<String, ClientService> clientMap ){
-		this.clientMap = clientMap;
-		this.clientSocket = clientSocket;
+	public ClientService(Socket clientSocket){
 		writer = new Writer(clientSocket);
 		reader = new Reader(clientSocket);
 		json = new Json();
@@ -57,37 +55,37 @@ public class ClientService implements Runnable {
 		return userId;
 	}
 	
-	public 	void addClientMap(String inetAddress, ClientService service) {
-		log("새로 입장한 사람이 있습니다.");
-		clientMap.put(inetAddress, service);
-	}
 
 	@Override
 	public void run() {
-		while(flag) {
-			String resp = reader.read();
-			log("메시지를 받았습니다. "+resp);
-			if(resp !=null) {
-				JsonObject jsonObject= json.toJsonObject(resp);
-				int type = json.getInt(jsonObject, "type");
-				
-				if(type == Constant.LOGIN) {
-					doLogin(LoginParser.parse(jsonObject));
-				}else if(type == Constant.EMPS && mIsLogin) {
-					sendEmployeesInfo();
-				}else if(type == Constant.MSG && mIsLogin) {
-					//메시지 받음
-					MessageVO msg = MessageParser.parse(jsonObject);
-					sendMessageToReceiver(msg);
-					writeMessageAtMyFile(msg);
-				}else if(type == Constant.ROOM && mIsLogin) {
-					sendBeforeChatData(RoomParser.parse(jsonObject));
+		try {
+			while(flag) {
+				String resp = reader.read();
+				log("메시지를 받았습니다. "+resp);
+				if(resp !=null) {
+					JsonObject jsonObject= json.toJsonObject(resp);
+					int type = json.getInt(jsonObject, "type");
 					
-				}else if(type == Constant.LOGOUT) {
-					int id = LogoutParser.parse(jsonObject);
-					doLogout(id);
+					if(type == Constant.LOGIN) {
+						doLogin(LoginParser.parse(jsonObject));
+					}else if(type == Constant.EMPS && mIsLogin) {
+						sendEmployeesInfo();
+					}else if(type == Constant.MSG && mIsLogin) {
+						//메시지 받음
+						MessageVO msg = MessageParser.parse(jsonObject);
+						sendMessageToReceiver(msg);
+						writeMessageAtMyFile(msg);
+					}else if(type == Constant.ROOM && mIsLogin) {
+						sendBeforeChatData(RoomParser.parse(jsonObject));
+						
+					}else if(type == Constant.LOGOUT) {
+						int id = LogoutParser.parse(jsonObject);
+						doLogout(id);
+					}
 				}
 			}
+		}catch(NullPointerException | SocketException e) {
+			thread.interrupt();
 		}
 	}
 	
@@ -102,6 +100,10 @@ public class ClientService implements Runnable {
 			userId = user.getId();
 			//로그인 후 유저 정보 전송
 			writer.write(user);
+		}else {
+			LoginVO loginVO = new LoginVO();
+			loginVO.setId(-1);
+			writer.write(loginVO);
 		}
 	}
 	
@@ -112,11 +114,14 @@ public class ClientService implements Runnable {
 	}
 
 	void sendMessageToReceiver(MessageVO message) {
-		Collection<ClientService> clients = clientMap.values();
-		for(ClientService client : clients) {
+		ClientService client = null;
+		int size = ChatServer.clientList.size(); 
+		for(int i = 0 ; i<size  ;i++) {
+			client = ChatServer.clientList.get(i);
 			if(client.isLogin() && client.getUserId() == message.getReceiver()) {
 				log("client를 찾았습니다 ! "+ client.getUserId());
 				client.writer.write(message); 
+				writeMessageAtRecvFile(message);
 				return ;
 			}
 		}
@@ -140,22 +145,31 @@ public class ClientService implements Runnable {
 		if(messageList !=null) {
 			roomVO.setList(messageList);
 		}
-	
+	    try {
 			writer.write(roomVO);
-		
+	    }catch(Exception e) {
+	    	
+	    }
 	}
 	
 	void doLogout(int id) {
 		log("로그아웃 합니다.");
-		LoginDTO loginDto = new LoginDTO();
-		loginDto.doLogout(id); // DB에서 제거
-		mIsLogin =false;
+		user = null;
+		writer = null;
+		reader = null;
+		json = null;
+		
+		try {Thread.sleep(1000);} catch (InterruptedException e) {}
+		
 		flag = false;
-		try {
-			thread.join();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
+		if(thread.isAlive())thread.interrupt();
+		
+		LoginDTO loginDto = new LoginDTO();
+		if(id !=-1) {
+			loginDto.doLogout(id); // DB에서 제거
 		}
+		ChatServer.clientList.remove(this);
+		thread = null;
 	}
 	
 	void log(String str) {

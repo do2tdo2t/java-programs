@@ -11,5 +11,6 @@ public class Constant {
 	public static final int EMPS = 104;
 	public static final int ERROR = 111;
 	public static final int LOGOUT = 105;
-	
+	public static final int CHAT_PANE_WIDTH = 400;
+	public static final int CHAT_PANE_HEIGHT = 400;
 }

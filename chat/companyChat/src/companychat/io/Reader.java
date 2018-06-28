@@ -4,26 +4,30 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
+import java.net.SocketException;
 
 
 
 public final class Reader{
 	BufferedReader br = null;
-
+	Socket server = null;
 	public Reader(Socket server) {
 		try {
-
-			br = new BufferedReader(new InputStreamReader(server.getInputStream()));
+			if(!server.isClosed()) {
+				this.server = server;
+				br = new BufferedReader(new InputStreamReader(server.getInputStream()));
+			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 
-	public String read() {
+	public String read() throws NullPointerException, SocketException{
 		try {
-
-			String result = br.readLine();
-			return result;
+			if(!server.isClosed()) {
+				String result = br.readLine();
+				return result;
+			}
 		}catch(IOException e) {
 			e.printStackTrace();
 		}

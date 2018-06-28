@@ -26,20 +26,4 @@ public class MessageWriter {
 			e.printStackTrace();
 		}
 	}
-	/*
-	public static void main(String arg[]) {
-		int sender = 2;
-		int receiver = 4;
-		String content = "안녕하세요 !";
-		String senderName = "김경주";
-		String recvName = "박정연";
-
-		MessageVO msg = new MessageVO(sender,receiver,senderName,recvName,content);
-		MessageWriter.write(msg);
-		
-		System.out.println(MessageReader.read(sender+"", receiver+""));
-		
-	}
-	*/
-	
 }

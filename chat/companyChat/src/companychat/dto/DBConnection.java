@@ -7,8 +7,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import companychat.util.Constant;
-
 public class DBConnection {
 	//jdbc:oracle:thin@ip:port(1521), SID 전역변수(GOOTTDB)
 	String url = "jdbc:oracle:thin:@172.16.2.20:1521:GOOTTDB";

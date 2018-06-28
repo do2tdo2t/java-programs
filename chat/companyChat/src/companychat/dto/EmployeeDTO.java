@@ -38,7 +38,7 @@ public class EmployeeDTO extends DBConnection {
 	
 	//사원 정보 리턴
 	public EmployeesVO getAllEmployeeInfo() {
-		int count = 0;
+
 		EmployeesVO emps = null;
 		EmployeeVO emp = null;
 		dbClose();

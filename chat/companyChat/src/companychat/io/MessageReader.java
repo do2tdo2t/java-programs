@@ -7,9 +7,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import com.google.gson.Gson;
-
-import companychat.parser.MessageParser;
-import companychat.vo.EmployeeVO;
 import companychat.vo.MessageVO;
 
 public class MessageReader {
@@ -22,7 +19,7 @@ public class MessageReader {
 			if(!file.exists()) return null;
 			BufferedReader in = new BufferedReader(new FileReader(file));
 		    String line = ""; 
-		    StringBuffer sb = new StringBuffer();
+		  
 		    MessageVO msg = null;
 		    ArrayList<MessageVO> list = new ArrayList<MessageVO>();
 		    while((line = in.readLine())!=null) {

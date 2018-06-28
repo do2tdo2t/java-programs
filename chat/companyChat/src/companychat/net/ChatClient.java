@@ -4,20 +4,18 @@ import java.awt.event.MouseEvent;
 import java.awt.event.WindowEvent;
 import java.io.IOException;
 import java.net.Socket;
-
-import javax.swing.tree.DefaultMutableTreeNode;
-
+import java.net.SocketException;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
 import companychat.io.Reader;
 import companychat.io.Writer;
-import companychat.parser.EmployeeParser;
 import companychat.parser.EmployeesParser;
 import companychat.parser.MessageParser;
 import companychat.parser.RoomParser;
 import companychat.util.Constant;
 import companychat.util.Json;
+import companychat.view.ChatDialog;
 import companychat.view.ChatFrame;
 import companychat.vo.EmployeeVO;
 import companychat.vo.EmployeesVO;
@@ -25,13 +23,12 @@ import companychat.vo.LogoutVO;
 import companychat.vo.MessageVO;
 import companychat.vo.RoomVO;
 
-//로그인 성공 후
-//view actionPerformed
-//요청 쓰레드 생성
-//client 요청 -> 응답
-//응답 
 
 public class ChatClient extends ChatFrame implements Runnable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	EmployeeVO user; //로그인 한 사람.
 	Socket server = null;
 	Writer writer = null;
@@ -61,22 +58,28 @@ public class ChatClient extends ChatFrame implements Runnable{
 		
 	@Override
 	public void mouseClicked(MouseEvent e) {
+		String recvInfo = "";
 		//채팅방(Room)열기 이벤트 발생
-		if(e.getButton() == 1 && e.getClickCount() > 1 && e.getSource().equals(jTree)) {
-			DefaultMutableTreeNode node = (DefaultMutableTreeNode)jTree.getLastSelectedPathComponent();
-         	if (node == null) return;
-         	String recvInfo = node.getUserObject().toString();
-         	if(!rooms.containsKey(recvInfo)) {
-         		sendReqRoomInfoToServer(recvInfo);
-         	}else {
-         		loadRoom(recvInfo);
-         	}
+		if(e.getButton() == 1 && e.getClickCount() > 1 && e.getSource().equals(empTree)) {
+			recvInfo = empTree.getSelectedNodeInfo();
+			System.out.println(recvInfo);
+			if(!"직원".equals(recvInfo)) {
+	         	if(!rooms.containsKey(recvInfo)) {
+	         		sendReqRoomInfoToServer(recvInfo);
+	         	}else {
+	         		loadRoom(recvInfo);
+	         	}
+			}
 		}else if(e.getButton() == 1 && sendBtn.equals(e.getSource())) {
 			//메시지 전송 실행. 1. 메시지 객체 생성(inputTa에서 읽어 들임) 2. 메시지 writer로 전송 3.inputlbl 갱신
 			MessageVO msg = getMessageInfo();
 			updateTextArea(msg.getContent());
 			writer.write(msg);
-		}	
+		}else if(e.getButton() == 3 && e.getSource().equals(empTree)) {
+       
+		}else if(e.getButton()==1 ) {
+			log(e.getComponent().toString());
+		}
 	}
 	
 	void sendReqRoomInfoToServer(String recvInfo) {
@@ -88,6 +91,7 @@ public class ChatClient extends ChatFrame implements Runnable{
 	@Override
 	//응답 처리
 	public void run() {
+		try {
 		while(flag) {
 			String msg = reader.read();
 			log(" 메시지를 받았습니다. "+msg);
@@ -101,10 +105,15 @@ public class ChatClient extends ChatFrame implements Runnable{
 					showRoom(roomVO);
 				}else if(type == Constant.EMPS) {
 					whenRecvEmployeeInfoFromServer(EmployeesParser.parse(jsonObject));
-				}else if(type == Constant.EMP) {
-					EmployeeVO emp = EmployeeParser.parse(jsonObject);
 				}
 			}
+		}catch(NullPointerException e1) {
+			thread.interrupt();
+		}catch(SocketException e2) {
+			thread.interrupt();
+			new ChatDialog("서버 접속에 실패 했습니다.","서버 접속 실패");
+			System.exit(0);
+		}
 	}
 	
 	void whenRecvMessageFromSender(MessageVO message) {
@@ -118,36 +127,30 @@ public class ChatClient extends ChatFrame implements Runnable{
 		initEmpTree(emps, user);
 		setVisible(true);
 	}
-	
-	void log(String str) {
-		if(user==null) {
-			System.out.println("ChatClient ..."+str);
-		}else {
-			System.out.println("ChatClient "+user.getName()+"..."+str);
-		}
-	}
 
-
-	public void windowClosing(WindowEvent e) {
+	public void windowClosed(WindowEvent e) {
 		log("종료 이벤트 발생");
 		LogoutVO logoutVO = new LogoutVO(user.getId());
 		writer.write(logoutVO);
-		log(logoutVO.toString());
+		
+		
 		try {
-			server.close();
 			flag = false;
-			thread.join();
-		} catch (InterruptedException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+			thread.interrupt();
+			server.close();
 		}catch (IOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}finally {
 			System.exit(0);
 		}
-		
 	}
 	
-	
+	protected void log(String str) {
+		if(user==null) {
+			//System.out.println("ChatClient ..."+str);
+		}else {
+			//System.out.println("ChatClient "+user.getName()+"..."+str);
+		}
+	}	
 }
