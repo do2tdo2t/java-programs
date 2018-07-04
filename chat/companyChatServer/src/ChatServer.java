@@ -1,5 +1,6 @@
 
-
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -9,14 +10,18 @@ import java.util.ArrayList;
 import companychatserver.dto.EmployeeDTO;
 import companychatserver.dto.LoginDTO;
 import companychatserver.util.Constant;
+import companychatserver.view.ServerFrame;
 import companychatserver.vo.EmployeesVO;
 
-public class ChatServer implements Runnable{
+public class ChatServer extends ServerFrame implements Runnable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	EmployeesVO emps = null;
 	ServerSocket serverSocket = null;
 	ClientService service = null;
 	Socket socket = null;
-	//HashMap<String, ClientService> clientMap = new HashMap<String,ClientService>();
 	public static ArrayList<ClientService> clientList = new ArrayList<ClientService>();
 	Thread thread = null;
 	
@@ -25,6 +30,20 @@ public class ChatServer implements Runnable{
 	}
 	
 	public ChatServer() {
+		initFrame();
+		addEvent();
+	}
+	public void addEvent() {
+		startBtn.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {	
+				start();
+				log("서버가 시작되었습니다.");
+			}
+		});
+	}
+	
+	public void start() {
 		try {
 			serverSocket = new ServerSocket(Constant.serverPort);
 			//정보 초기화 로그인
@@ -70,8 +89,8 @@ public class ChatServer implements Runnable{
 		}
 	}
 	
-	void log(String str) {
-		System.out.println("ChatServer..."+str);
+	public void log(String str) {
+		ipTa.append("\n"+str);
 	}
 
 }

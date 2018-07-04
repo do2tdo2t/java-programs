@@ -1,7 +1,7 @@
 package companychatserver.util;
 public class Constant {
 	public static final String dateFormat = "yyyy-MM-dd-hh-mm-ss";
-	public static final String serverIP = "172.16.2.20";
+	public static String serverIP = "172.16.2.20";
 	//public static final String serverIP = "192.168.0.11";
 	public static final int serverPort = 7777;
 	public static final int LOGIN = 100;
