@@ -29,8 +29,8 @@
 	<!--  JDBC DataSource 객체  -->
 	<beans:bean name="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<beans:property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"></beans:property>
-		<beans:property name="url" value="jdbc:oracle:thin:@172.16.2.20:1521:goottdb"></beans:property>
-		<beans:property name="username" value="scott"></beans:property>
+		<beans:property name="url" value="jdbc:oracle:thin:@localhost:1521:ex"></beans:property>
+		<beans:property name="username" value="system"></beans:property>
 		<beans:property name="password" value="tiger"></beans:property>
 	</beans:bean>
 	
@@ -45,7 +45,7 @@
 		<beans:property name="dataSource" ref="dataSource"></beans:property>
 		<beans:property name="mapperLocations">
 			<beans:list>
-				<beans:value>classpath:com/goott/webapp/mapper/*.xml</beans:value>
+				<beans:value>classpath:com/checkin/webapp/mapper/*.xml</beans:value>
 			</beans:list>
 		</beans:property>
 	</beans:bean>
