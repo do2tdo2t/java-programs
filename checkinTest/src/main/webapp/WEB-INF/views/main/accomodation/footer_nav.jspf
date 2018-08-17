@@ -29,7 +29,7 @@
 				<!--     =========================== 숙박유형=========================== -->
 				<li class="type-list container dropdown">
 					<button class="btn btn-light dropdown-toggle border"
-						data-toggle="dropdown" id="Bottom-type">숙박유형</button>
+						data-toggle="dropdown" id="Bottom-type">${type}</button>
 					<div class="dropdown-menu">
 						<a class="dropdown-item droptype-item droptype-item" style="font-size:1em" >모텔</a>
 						<a class="dropdown-item active droptype-item" style="font-size:1em" >호텔</a> <a
@@ -44,17 +44,18 @@
 					style="margin: auto; text-align: center">
 					<button class="btn btn-light dropdown-toggle border"
 						id='selectedLocation' style="font-size: 1em">
-						<span class="selectedSido">서울</span> <span class="selectedGu">강남구</span>
-						<span class="selectedSubway"></span>
+						<span class="selectedSido">서울</span> <span class="selectedGu">${gu}</span>
+						<span class="selectedSubway">${subway}</span>
 					</button>
 				</li>
 				<!--     =========================== 지역 =========================== -->
 
 
-				<li class="container"><input type="text"
+				<li class="container"><input type="text" value="${checkinout}"
 					class="rounded btn btn-light border" name="bottom-checkinout" /></li>
-				<li class="container"><button type="submit"
-						class="btn w3-deep-orange rounded" style="width: 80%">검색</button></li>
+				<li class="container">
+				<button type="submit" 
+						class="btn w3-deep-orange rounded searchButton" style="width: 80%">검색</button></li>
 			</ul>
 		</form>
 

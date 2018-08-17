@@ -28,7 +28,7 @@
 <!-- navermap api -->
 <script type="text/javascript"
 	src="https://openapi.map.naver.com/openapi/v3/maps.js?clientId=Ve4ILimYsUbRNnlZeSVm&submodules=geocoder"></script>
-<script type="text/javascript" src="<%=request.getContextPath()%>/js/filter.js"></script>
+<script type="text/javascript" src="/webapp/js/filter.js"></script>
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 
 <style>
@@ -51,22 +51,23 @@
 		});
 	
 		
-		$("#searchButton").click(function(){
+		$(".searchButton").click(function(){
 			var atype = $("#Atype").text();
 			var asi = $("#asi").text();
 			var agu = $("#agu").text();
 			var asubway = $("#asubway").text();
-			var acheckinout = $('#acheckinout').val();
-			var startdate = acheckinout.split('-')[0].trim();
-			var lastdate = acheckinout.split('-')[1].trim();
-			console.log(atype+' '+asi+' '+agu+' '+asubway+' '+startdate+' '+lastdate);
+			var checkinout = $('#acheckinout').val();
+			var sorttype = $('#searchSort option:selected').attr('rel');
+			var atheme = $('#hiddenOption').text();
+			console.log(atype+' '+asi+' '+agu+' '+asubway+' '+sorttype+' '+atheme);
+			var url = '/webapp/main/showAccoList?atype='+atype+'&checkinout='+checkinout+'&asorttype='+sorttype+'&agu='+agu+'&asubway='+asubway+"&atheme="+atheme;
+			alert(url);
+			location.href=url;
 		});
 	
 	
 	});
 	function setdate(){
-		//var checkinout = $('#acheckinout').val();
-
 	}
 </script>
 </head>
@@ -119,7 +120,7 @@
 					</div>
 
 					<div class="filter-item">
-						<button id="searchButton" class="btn btn-default form-control">
+						<button id="searchButton" class="btn btn-default form-control searchButton">
 							숙소검색 <i class="fa fa-search"></i>
 						</button>
 					</div>
@@ -133,12 +134,37 @@
 			<div class="border rounded" id="searchSort">
 		
 					<select id="searchSort" class="btn btn-light sort-item border" style="font-family:'Jua'; text-align:center">
-						<option>등록일순</option> 
-						<option>최저가격순</option> 
-						<option>별점순</option> 
-						<option>방문자순</option>
-					</select >
-		
+						<option rel="writedate" name="writedate">등록일순</option> 
+						<option rel='aminprice' name="aminprice">최저가격순</option> 
+						<option rel='agrade' name="agrade">별점순</option>
+					</select>
+				<script>
+					$(function(){
+						//초기 로딩 시 sorting selector의 옵션을 선택하기 위한 javascript
+						$("#searchSort").find("option").each(function() {
+							 if($(this).attr('rel') == "${asorttype}") {
+							  $(this).attr('selected','selected');
+							}
+						});
+					
+						$("#searchSort").change(function(){
+							var sorttype = $('#searchSort option:selected').attr('rel');
+						
+							//change 조건으로 리스트 리로딩!
+							var checkinout = $("#acheckinout").val();
+								
+							var atype = $('#Atype').text();
+							var agu =  $("#agu").text();
+							var asubway =$("#asubway").text();
+							var url = '/webapp/main/showAccoList?atype='+atype+'&checkinout='+checkinout+'&asorttype='+sorttype+'&agu='+agu+'&asubway'+asubway;
+						
+							location.href=url;
+													
+						});
+						
+						
+					});
+				</script>
 				<div id="thema" class="sort-item" style="font-family:'Jua'">
 					<button class="btn btn-primary" data-toggle="modal" data-target="#themaModal">테마</button>
 					<!-- 테마에 대한 정보를 이곳에 hidden 속성으로 숨겨 둔다 -->
@@ -191,7 +217,11 @@
 						<div class="col-sm-12" id="info1"><a href="/webapp/main/accomodation/showDetailAccomodation.jsp">${item.aname}</a></div>
 					</div>
 					<div class="row" id="info">
-						<div class="col-sm-12" id="info2">평점 : ${item.agrade}</div>
+						<div class="col-sm-12" id="info2">평점 :
+						 <c:if test='${item.agrade ==0}'>등록된 리뷰가 없습니다.</c:if>
+						 <c:if test='${item.agrade !=0}'>${item.agrade}</c:if>
+						 
+						 </div>
 					</div>
 					
 					<div class="row" id="info">

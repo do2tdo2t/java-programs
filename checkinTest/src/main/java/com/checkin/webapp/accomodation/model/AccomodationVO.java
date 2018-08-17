@@ -32,9 +32,15 @@ public class AccomodationVO {
 	private int aonepage = 10; //한 페이지에 보여질 리스트 개수
 	private String asearchkey;//검색조건
 	private String asearchvalue; //검색값
-	
+	private String asortkey = "writedate";
 
 	
+	public String getAsortkey() {
+		return asortkey;
+	}
+	public void setAsortkey(String asortkey) {
+		this.asortkey = asortkey;
+	}
 	public int getAmaxprice() {
 		return amaxprice;
 	}
@@ -212,10 +218,9 @@ public class AccomodationVO {
 				+ ", atheme=" + atheme + ", anotice=" + anotice + ", writedate=" + writedate + ", asubway=" + asubway
 				+ ", agrade=" + agrade + ", amaxprice=" + amaxprice + ", aminprice=" + aminprice + ", acurpage="
 				+ acurpage + ", aonepage=" + aonepage + ", asearchkey=" + asearchkey + ", asearchvalue=" + asearchvalue
-				+ "]";
+				+ ", asortkey=" + asortkey + "]";
 	}
 
 	
-
 	
 }

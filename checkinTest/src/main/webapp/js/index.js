@@ -4,7 +4,6 @@
 //검색 버튼 클릭시
 function whenClickSearchBtn(){
 	
-	
 	var checkinout = $('#checkinout').val().split('-');
 	var acheckin = checkinout[0].trim()+'-'+checkinout[1].trim()+'-'+checkinout[2].trim();
 	var acheckout =  checkinout[3].trim()+'-'+checkinout[4].trim()+'-'+checkinout[5].trim();

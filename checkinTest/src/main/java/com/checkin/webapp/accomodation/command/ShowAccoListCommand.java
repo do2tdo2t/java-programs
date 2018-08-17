@@ -27,7 +27,8 @@ public class ShowAccoListCommand implements AccomodationCommandInterface {
 		String agu = request.getParameter("agu");
 		String asubway = request.getParameter("asubway");
 		String atype = request.getParameter("atype");
-		System.out.println("ShowAccoListCommand..execute().."+checkinout+" "+agu+" "+asubway+" "+atype);
+		String asorttype = request.getParameter("asorttype");
+		System.out.println("ShowAccoListCommand..execute().."+checkinout+" "+agu+" "+asubway+" "+atype+" "+asorttype);
 		
 		//<![CDATA[ AND ROWNUM <= 15 ]]>
 		
@@ -41,6 +42,7 @@ public class ShowAccoListCommand implements AccomodationCommandInterface {
 		vo.setAtype(atype);
 		vo.setAonepage(10);
 		vo.setAcurpage(1);
+		vo.setAsortkey(asorttype);
 		System.out.println(vo.toString());
 		List<AccomodationVO> list = dao.selectAllList(vo);
 		System.out.println("ShowAccoListCommand..execute().."+list.size()+" "+ list.toString());
@@ -53,6 +55,8 @@ public class ShowAccoListCommand implements AccomodationCommandInterface {
 		session.setAttribute("gu", agu);
 		session.setAttribute("subway", asubway);
 		session.setAttribute("type", atype);
+		if (asorttype== null || asorttype == "") session.setAttribute("asorttype", "writedate");
+		else session.setAttribute("asorttype", asorttype);
 		
 		return mav;
 	}

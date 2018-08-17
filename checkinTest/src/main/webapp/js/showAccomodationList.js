@@ -4,5 +4,5 @@ $(function() {
 		$("#Atype").html($(this).html());
 		$("#Bottom-type").html($(this).html());
 	});
+	
 });
-
