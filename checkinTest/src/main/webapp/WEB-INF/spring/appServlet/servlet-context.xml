@@ -30,11 +30,7 @@
 	<beans:bean name="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<beans:property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"></beans:property>
 		<beans:property name="url" value="jdbc:oracle:thin:@172.16.2.20:1521:goottdb"></beans:property>
-<<<<<<< HEAD
-		<beans:property name="username" value="checkin"></beans:property>
-=======
 		<beans:property name="username" value="checkin01"></beans:property>
->>>>>>> webmaster.writeReviewModal
 		<beans:property name="password" value="123456"></beans:property>
 	</beans:bean>
 	
