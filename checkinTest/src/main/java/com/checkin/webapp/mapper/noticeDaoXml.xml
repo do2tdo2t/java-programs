@@ -3,6 +3,7 @@
 <mapper namespace="com.checkin.webapp.webmaster.model.NoticeDAOInterface">
 
 	<insert id="insertNotice" parameterType="com.checkin.webapp.webmaster.model.NoticeVO">
-		insert into notice(no,wid,notitle,nostartdate,noenddate,target,writedate) values (noticesq.nextval,#{wid},#{notitle},#{nostartdate},#{noenddate},#{target},sysdate)	
+		insert into notice(no,wid,notitle,nostartdate,noenddate,target)
+		 values (noticesq.nextval,#{wid},#{notitle},#{nostartdate},#{noenddate},#{target})	
 	</insert>
 </mapper>

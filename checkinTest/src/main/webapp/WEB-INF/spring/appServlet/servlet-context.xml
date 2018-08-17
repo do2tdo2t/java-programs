@@ -29,9 +29,9 @@
 	<!--  JDBC DataSource 객체  -->
 	<beans:bean name="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<beans:property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"></beans:property>
-		<beans:property name="url" value="jdbc:oracle:thin:@localhost:1521:ex"></beans:property>
-		<beans:property name="username" value="system"></beans:property>
-		<beans:property name="password" value="tiger"></beans:property>
+		<beans:property name="url" value="jdbc:oracle:thin:@172.16.2.20:1521:goottdb"></beans:property>
+		<beans:property name="username" value="checkin01"></beans:property>
+		<beans:property name="password" value="123456"></beans:property>
 	</beans:bean>
 	
 	<!-- JDBC Template을 위한 객체  -->
