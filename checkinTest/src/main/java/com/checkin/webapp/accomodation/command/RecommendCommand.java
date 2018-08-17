@@ -9,7 +9,6 @@ import org.springframework.web.servlet.ModelAndView;
 import com.checkin.webapp.Constants;
 import com.checkin.webapp.accomodation.model.AccomodationDAOInterface;
 import com.checkin.webapp.accomodation.model.AccomodationVO;
-import com.sun.corba.se.impl.orbutil.closure.Constant;
 
 public class RecommendCommand implements AccomodationCommandInterface {
 

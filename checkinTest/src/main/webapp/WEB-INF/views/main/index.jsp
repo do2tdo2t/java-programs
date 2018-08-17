@@ -30,6 +30,8 @@
 
 <script type="text/javascript"
 	src="<%=request.getContextPath()%>/js/filter.js"></script>
+<script type="text/javascript"
+	src="<%=request.getContextPath()%>/js/index.js"></script>
 <script>
 	$(function(){
 		ajax_recommendation();
@@ -38,55 +40,12 @@
 			,locale: {
 			      format: 'YYYY-MM-DD'
 		    }
-		});		
+		});
+		$("#ok").click(function(){
+			whenClickSearchBtn();
+			//location.href="/webapp/main/showAccoList";
+		});
 	});
-	
-	//ajax로 추천 받은 파일을 가져와서 img 뿌려주기
-	function ajax_recommendation(){
-		var asubway = $("#selectedSubway").text();
-		var agu = $("#selectedGu").text();
-		var params = "";
-		if(asubway != "")
-			params = "asubway="+asubway;
-		else if(agu!="")
-			params = "agu="+agu;
-		
-		$.ajax({
-			type:"get",
-			url:"/webapp/main/recommend",
-			data:params,
-			dataType:'json',
-			contentType:'applicaiton/json;charset=UTF-8',
-			 success:function(result){
-				 var $result=$(result);
-			
-				 $result.each(function(i,val){
-				 	var tag;
-					var aurl= "#";
-					var aimg = val.aimg1;
-				 	if(i == 0) tag = $('#form1');
-				 	else if(i == 1) tag = $('#form2');
-				 	else if(i == 2) tag= $('#form3');
-				 	//tag 값 변경하기
-				 	$(tag).find('.agrade').text(val.agrade);
-				 	$(tag).find('.aaddr').text(val.aaddr);
-				 	$(tag).find('.aname').text(val.aname);
-				 	$(tag).find('.aurl').attr('href',aurl);
-				 	$(tag).find('.aimg').attr('src',aimg);
-				 	$(tag).find('.a').text(val.a);
-				 	$(tag).find('.atel').text(val.atel);
-				 
-				 });
-			 },
-			 error:function(e){
-				console.log(e.responseText);
-			 }
-
-		})
-		
-	}
-	
-	
 
 </script>
 </head>
@@ -186,8 +145,8 @@
 				<!-- filter_item 부분 변경 -->
 				<div class=" filter-main">
 					<div class="filter-item">
-						<i class="material-icons"> calendar_today</i> <input
-							class="rounded" name="daterange" id="checkinout" type="text">
+						<i class="material-icons"> calendar_today</i> 
+						<input class="rounded" name="daterange" id="checkinout" type="text">
 						<div>
 							<i class="material-icons">keyboard_arrow_down</i>
 						</div>
@@ -217,10 +176,7 @@
 	</div>
 	<script>
 		$(function(){
-			$("#ok").click(function(){
-				location.href="<%=request.getContextPath()%>
-		/main/accomodation/showAccomodationList.jsp";
-							});
+			
 		});
 	</script>
 
