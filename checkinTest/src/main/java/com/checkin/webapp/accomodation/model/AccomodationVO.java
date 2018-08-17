@@ -188,6 +188,16 @@ public class AccomodationVO {
 	public void setAsearchvalue(String asearchvalue) {
 		this.asearchvalue = asearchvalue;
 	}
+	@Override
+	public String toString() {
+		return "AccomodationVO [a=" + a + ", mid=" + mid + ", aname=" + aname + ", atel=" + atel + ", aaddr=" + aaddr
+				+ ", atype=" + atype + ", acheckin=" + acheckin + ", acheckout=" + acheckout + ", asi=" + asi + ", agu="
+				+ agu + ", agunmul=" + agunmul + ", adong=" + adong + ", aimg1=" + aimg1 + ", aimg2=" + aimg2
+				+ ", aimg3=" + aimg3 + ", amaxreservedate=" + amaxreservedate + ", amaxsleepdate=" + amaxsleepdate
+				+ ", atheme=" + atheme + ", anotice=" + anotice + ", writedate=" + writedate + ", asubway=" + asubway
+				+ ", agrade=" + agrade + ", acurpage=" + acurpage + ", aonepage=" + aonepage + ", asearchkey="
+				+ asearchkey + ", asearchvalue=" + asearchvalue + "]";
+	}
 	
 	
 }

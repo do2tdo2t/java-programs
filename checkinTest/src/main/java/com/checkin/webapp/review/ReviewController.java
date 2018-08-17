@@ -5,8 +5,10 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.checkin.webapp.review.command.SelectListCommand;
 import com.checkin.webapp.review.model.ReviewVO;
 
 @Controller
@@ -27,4 +29,11 @@ public class ReviewController {
 	public List<ReviewVO> selectReviewAjax(HttpServletRequest request){}
 	
 	*/
+	//일반회원 리뷰 리스트
+	// 매핑 주소 : /master/showAccoReviewList
+	@RequestMapping("/main/showAccoReviewList")
+	public ModelAndView showMemberReviewList(HttpServletRequest request, ReviewVO vo){
+	
+		return new SelectListCommand().execute(request,vo); 
+	}
 }
