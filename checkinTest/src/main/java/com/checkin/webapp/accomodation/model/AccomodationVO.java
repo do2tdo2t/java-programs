@@ -23,15 +23,30 @@ public class AccomodationVO {
 	private String writedate; //등록 날짜
 	private String asubway; //주변 지하철역
 	private int agrade; //숙박업소 평균 평점
+	private int amaxprice;
+	private int aminprice;
+	
 	
 	//페이징
-	private int acurpage; //현재 페이지
-	private int aonepage; //한 페이지에 보여질 리스트 개수
+	private int acurpage = 1; //현재 페이지
+	private int aonepage = 10; //한 페이지에 보여질 리스트 개수
 	private String asearchkey;//검색조건
 	private String asearchvalue; //검색값
 	
+
 	
-	
+	public int getAmaxprice() {
+		return amaxprice;
+	}
+	public void setAmaxprice(int amaxprice) {
+		this.amaxprice = amaxprice;
+	}
+	public int getAminprice() {
+		return aminprice;
+	}
+	public void setAminprice(int aminprice) {
+		this.aminprice = aminprice;
+	}
 	public double getAgrade() {
 		return agrade;
 	}
@@ -195,9 +210,12 @@ public class AccomodationVO {
 				+ agu + ", agunmul=" + agunmul + ", adong=" + adong + ", aimg1=" + aimg1 + ", aimg2=" + aimg2
 				+ ", aimg3=" + aimg3 + ", amaxreservedate=" + amaxreservedate + ", amaxsleepdate=" + amaxsleepdate
 				+ ", atheme=" + atheme + ", anotice=" + anotice + ", writedate=" + writedate + ", asubway=" + asubway
-				+ ", agrade=" + agrade + ", acurpage=" + acurpage + ", aonepage=" + aonepage + ", asearchkey="
-				+ asearchkey + ", asearchvalue=" + asearchvalue + "]";
+				+ ", agrade=" + agrade + ", amaxprice=" + amaxprice + ", aminprice=" + aminprice + ", acurpage="
+				+ acurpage + ", aonepage=" + aonepage + ", asearchkey=" + asearchkey + ", asearchvalue=" + asearchvalue
+				+ "]";
 	}
+
 	
+
 	
 }

@@ -202,7 +202,7 @@
 					</div>
 					<hr />
 					<div class="row" id="info">
-						<div class="col-sm-12" id="info2">가격</div>
+						<div class="col-sm-12" id="info2">가격 : ${item.aminprice } ~ ${item.amaxprice }</div>
 					</div>
 				</div>
 			
