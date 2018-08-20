@@ -29,6 +29,11 @@ public class ShowAccoListCommand implements AccomodationCommandInterface {
 		String checkinout =  request.getParameter("checkinout");
 		String agu = request.getParameter("agu");
 		String asubway = request.getParameter("asubway");
+		String acurpage = request.getParameter("acurpage");
+		
+		int curpage = 1;
+		if(acurpage!=null && !acurpage.equals("")) curpage = Integer.parseInt(acurpage);
+		
 		String atype = request.getParameter("atype");
 		String asorttype = request.getParameter("asorttype");
 		List<String> athemeList = null;
@@ -57,7 +62,7 @@ public class ShowAccoListCommand implements AccomodationCommandInterface {
 		//model과 view setting
 		mav.addObject("list",list);
 		mav.setViewName("main/accomodation/showAccomodationList");
-		setSession(request.getSession(),checkinout,agu,asubway,atype,asorttype, atheme);
+		setSession(request.getSession(),checkinout,agu,asubway,atype,asorttype, atheme, curpage);
 		
 		
 		return mav;
@@ -76,9 +81,9 @@ public class ShowAccoListCommand implements AccomodationCommandInterface {
 		return vo;
 	}
 	
-	public void setSession(HttpSession session,String checkinout,String agu, String asubway, String atype, String asorttype, String atheme) {
+	public void setSession(HttpSession session,String checkinout,String agu,String asubway, String atype, String asorttype, String atheme,int curpage) {
 		//session 작업 - session에 checkinout 시간, 유형, 구, 인근 지하철 정보를 세팅한다.
-		
+		session.setAttribute("curpage", curpage);
 		session.setAttribute("checkinout", checkinout);
 		session.setAttribute("gu", agu);
 		session.setAttribute("subway", asubway);

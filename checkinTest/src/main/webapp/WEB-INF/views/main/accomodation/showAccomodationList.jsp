@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page trimDirectiveWhitespaces="true"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
@@ -52,6 +51,10 @@
 	
 		
 		$(".searchButton").click(function(){
+			loadPage();
+		});
+		
+		function loadPage(){
 			var atype = $("#Atype").text();
 			var asi = $("#asi").text();
 			var agu = $("#agu").text();
@@ -60,15 +63,56 @@
 			var sorttype = $('#searchSort option:selected').attr('rel');
 			var atheme = $('#hiddenOption').text();
 			console.log(atype+' '+asi+' '+agu+' '+asubway+' '+sorttype+' '+atheme);
-			var url = '/webapp/main/showAccoList?atype='+atype+'&checkinout='+checkinout+'&asorttype='+sorttype+'&agu='+agu+'&asubway='+asubway+"&atheme="+atheme;
+			var url = '/webapp/main/showAccoList?atype='+atype+'&checkinout='+checkinout+'&asorttype='+sorttype+'&agu='+agu+'&asubway='+asubway+"&atheme="+atheme+"&acurpage=${curpage}&aonepage=10";
 			
 			location.href=url;
+		}
+		
+		$(window).scroll(function(){
+			if($(window).scrollTop() == $(document).height() - $(window).height()){
+				alert("페이지 로딩 중입니다...");
+				//ajax로 페이지가 수 체크한 후 에
+				checkListCnt();
+			}
 		});
+		
+		//페이지 끝으로 가면 로딩 할 리스트가 있는지 DB에서 Select 쿼리를 통해 검사한다.
+		function checkListCnt(){
+			var atype = $("#Atype").text();
+			var asi = $("#asi").text();
+			var agu = $("#agu").text();
+			var asubway = $("#asubway").text();
+			var asortkey = $('#searchSort option:selected').attr('rel');
+			var atheme = $('#hiddenOption').text();
+			
+			var params = "atype="+atype+'&asortkey='+asortkey+'&agu='+agu+'&asubway='+asubway+"&atheme="+atheme+"&acurpage=${curpage}&aonepage=10";
+			alert(params);
+			$.ajax({
+				type : "get",
+				url : "/webapp/main/getListCnt",
+				data : params,
+				dataType : 'json',
+				contentType : 'applicaiton/json;charset=UTF-8',
+				success : function(result) {
+					var $result = $(result);
+					if(resutl > 0 ){
+						var curpage = ${curpage} +1;
+						//페이지 리로딩
+						var url = '/webapp/main/showAccoList?atype='+atype+'&checkinout='+checkinout+'&asorttype='+sorttype+'&agu='+agu+'&asubway='+asubway+"&atheme="+atheme+"&acurpage="+curpage+"&aonepage=10";
+			
+						
+					}
+
+				},
+				error : function(e) {
+					console.log(e.responseText);
+				}
+			})
+			
+		}
 	
 	
 	});
-	function setdate(){
-	}
 </script>
 </head>
 <body>
@@ -114,7 +158,7 @@
 					</div>
 					<!-- -------------------------- 체크인 체크아웃 --------------------------->
 					<div class="filter-item">
-						<input type="text" class="w3-border rounded btn btn-default" name="acheckinout" id="acheckinout" value="${checkinout}" onchange="setdate()"/>
+						<input type="text" class="w3-border rounded btn btn-default" name="acheckinout" id="acheckinout" value="${checkinout}"/>
 							<input type="hidden" name="acheckin" id="acheckin"/>
 							<input type="hidden" name="acheckout" id="acheckout"/>
 					</div>
@@ -240,7 +284,8 @@
 			</c:forEach>
 		</div>
 		<!-- 리스트 끝 -->
-		</div>
+		</div>	
+		
 		<!-- center 끝 -->
 		<aside class="col-sm-2 right" id="right" style="text-align: right">
 			<%@ include file="rightside_nav.jspf"%>
