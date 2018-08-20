@@ -54,14 +54,14 @@ public class AccomodationController {
 	@RequestMapping("/main/recommend")
 	@ResponseBody
 	public List<AccomodationVO> recommendAjax(HttpServletRequest request, AccomodationVO vo) {
-		System.out.println("AccomodationController..." + vo.toString());
+		System.out.println("AccomodationController...recommendAjax" + vo.toString());
 		return new RecommendCommand().execute2(request, vo);
 	}
 
 	// 매핑 경로 : /main/showAccoList
 	@RequestMapping("/main/showAccoList")
 	public ModelAndView showList(HttpServletRequest request, AccomodationVO vo) {
-		System.out.println("AccomodationController...showList()");
+		System.out.println("AccomodationController...showList()..."+ vo.toString());
 		return new ShowAccoListCommand().execute(request);
 	}
 	

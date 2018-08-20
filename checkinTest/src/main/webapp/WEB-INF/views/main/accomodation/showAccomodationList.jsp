@@ -63,14 +63,14 @@
 			var sorttype = $('#searchSort option:selected').attr('rel');
 			var atheme = $('#hiddenOption').text();
 			console.log(atype+' '+asi+' '+agu+' '+asubway+' '+sorttype+' '+atheme);
-			var url = '/webapp/main/showAccoList?atype='+atype+'&checkinout='+checkinout+'&asorttype='+sorttype+'&agu='+agu+'&asubway='+asubway+"&atheme="+atheme+"&acurpage=${curpage}&aonepage=10";
+			var url = '/webapp/main/showAccoList?atype='+atype+'&checkinout='+checkinout+'&asortkey='+sorttype+'&agu='+agu+'&asubway='+asubway+"&atheme="+atheme+"&acurpage=${curpage}&aonepage=10";
 			
 			location.href=url;
 		}
 		
 		$(window).scroll(function(){
 			if($(window).scrollTop() == $(document).height() - $(window).height()){
-				alert("페이지 로딩 중입니다...");
+		
 				//ajax로 페이지가 수 체크한 후 에
 				checkListCnt();
 			}
@@ -84,9 +84,10 @@
 			var asubway = $("#asubway").text();
 			var asortkey = $('#searchSort option:selected').attr('rel');
 			var atheme = $('#hiddenOption').text();
+			var checkinout = $('#acheckinout').val();
 			
 			var params = "atype="+atype+'&asortkey='+asortkey+'&agu='+agu+'&asubway='+asubway+"&atheme="+atheme+"&acurpage=${curpage}&aonepage=10";
-			alert(params);
+
 			$.ajax({
 				type : "get",
 				url : "/webapp/main/getListCnt",
@@ -95,11 +96,14 @@
 				contentType : 'applicaiton/json;charset=UTF-8',
 				success : function(result) {
 					var $result = $(result);
-					if(resutl > 0 ){
+					if(result > 0 ){
 						var curpage = ${curpage} +1;
+					
 						//페이지 리로딩
-						var url = '/webapp/main/showAccoList?atype='+atype+'&checkinout='+checkinout+'&asorttype='+sorttype+'&agu='+agu+'&asubway='+asubway+"&atheme="+atheme+"&acurpage="+curpage+"&aonepage=10";
-			
+						var url = '/webapp/main/showAccoList?atype='+atype+'&checkinout='+checkinout+'&asortkey='+asortkey+'&agu='+agu+'&asubway='+asubway+"&atheme="+atheme+"&acurpage="+curpage+"&aonepage=10";
+						location.href = url;
+						
+					}else{
 						
 					}
 

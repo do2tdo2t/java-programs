@@ -29,13 +29,18 @@ public class ShowAccoListCommand implements AccomodationCommandInterface {
 		String checkinout =  request.getParameter("checkinout");
 		String agu = request.getParameter("agu");
 		String asubway = request.getParameter("asubway");
-		String acurpage = request.getParameter("acurpage");
 		
+		String acurpage = request.getParameter("acurpage");
 		int curpage = 1;
 		if(acurpage!=null && !acurpage.equals("")) curpage = Integer.parseInt(acurpage);
 		
+		String aonepage = request.getParameter("aonepage");
+		int onepage = 10;
+		if(aonepage!=null && !aonepage.equals("")) onepage = Integer.parseInt(aonepage);
+		
+		
 		String atype = request.getParameter("atype");
-		String asorttype = request.getParameter("asorttype");
+		String asorttype = request.getParameter("asortkey");
 		List<String> athemeList = null;
 		System.out.println("ShowAccoListCommand..execute().."+checkinout+" "+agu+" "+asubway+" "+atype+" "+asorttype);
 	
@@ -49,7 +54,7 @@ public class ShowAccoListCommand implements AccomodationCommandInterface {
 		
 		//dao 작업
 		AccomodationDAOInterface dao = Constants.sqlSession.getMapper(AccomodationDAOInterface.class);
-		AccomodationVO vo = getMember(agu, asubway, atype, asorttype, athemeList);
+		AccomodationVO vo = getMember(agu, asubway, atype, asorttype, athemeList, curpage,onepage);
 		
 	
 		//쿼리 질의
@@ -68,13 +73,13 @@ public class ShowAccoListCommand implements AccomodationCommandInterface {
 		return mav;
 	}
 	
-	public AccomodationVO getMember(String agu, String asubway, String atype, String asorttype, List<String> athemeList) {
+	public AccomodationVO getMember(String agu, String asubway, String atype, String asorttype, List<String> athemeList,int acurpage,int aonepage) {
 		AccomodationVO vo = new AccomodationVO();
 		if (agu != null) vo.setAgu(agu);
 		if (asubway != null) vo.setAsubway(asubway);
 		if (atype != null) vo.setAtype(atype);
-		vo.setAonepage(10);
-		vo.setAcurpage(1);
+		vo.setAonepage(aonepage);
+		vo.setAcurpage(acurpage);
 		if (asorttype != null) vo.setAsortkey(asorttype);
 		System.out.println(vo.toString());
 		vo.setAthemeList(athemeList);
