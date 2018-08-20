@@ -114,9 +114,15 @@
 			})
 			
 		}
-	
-	
 	});
+	
+	function goRoomPage(a){
+		var checkinout = $('#acheckinout').val();
+		
+		var url = "/webapp/main/room/showList?checkinout="+checkinout+"&a="+a;
+		location.href = url;
+		
+	}
 </script>
 </head>
 <body>
@@ -262,7 +268,7 @@
 				<!-- 업소 정보 -->
 				<div class="col-lg-7 container">
 					<div class="row" id="info">
-						<div class="col-sm-12" id="info1"><a href="/webapp/main/accomodation/showDetailAccomodation.jsp">${item.aname}</a></div>
+						<div class="col-sm-12" id="info1"><a href="javascript:goRoomPage('${item.a}')">${item.aname}</a></div>
 					</div>
 					<div class="row" id="info">
 						<div class="col-sm-12" id="info2">평점 :

@@ -115,6 +115,13 @@ public class RoomVO {
 	public void setRtheme(String rtheme) {
 		this.rtheme = rtheme;
 	}
+	@Override
+	public String toString() {
+		return "RoomVO [r=" + r + ", a=" + a + ", mid=" + mid + ", rname=" + rname + ", rmin=" + rmin + ", rmax=" + rmax
+				+ ", rprice=" + rprice + ", rimg1=" + rimg1 + ", rimg2=" + rimg2 + ", rimg3=" + rimg3 + ", rbedroom="
+				+ rbedroom + ", rrestroom=" + rrestroom + ", rdiningroom=" + rdiningroom + ", rkitchen=" + rkitchen
+				+ ", rtheme=" + rtheme + ", writedate=" + writedate + "]";
+	}
 
 	
 }
