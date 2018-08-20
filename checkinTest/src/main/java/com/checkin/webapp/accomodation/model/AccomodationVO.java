@@ -1,5 +1,7 @@
 package com.checkin.webapp.accomodation.model;
 
+import java.util.List;
+
 public class AccomodationVO {
 	private int a; //가맹점 시퀀스
 	private String mid; //가맹점 주인 아이디
@@ -25,7 +27,7 @@ public class AccomodationVO {
 	private int agrade; //숙박업소 평균 평점
 	private int amaxprice;
 	private int aminprice;
-	
+	private List<String> athemeList;
 	
 	//페이징
 	private int acurpage = 1; //현재 페이지
@@ -33,8 +35,13 @@ public class AccomodationVO {
 	private String asearchkey;//검색조건
 	private String asearchvalue; //검색값
 	private String asortkey = "writedate";
-
 	
+	public List<String> getAthemeList() {
+		return athemeList;
+	}
+	public void setAthemeList(List<String> athemeList) {
+		this.athemeList = athemeList;
+	}
 	public String getAsortkey() {
 		return asortkey;
 	}

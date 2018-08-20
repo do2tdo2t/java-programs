@@ -61,7 +61,7 @@
 			var atheme = $('#hiddenOption').text();
 			console.log(atype+' '+asi+' '+agu+' '+asubway+' '+sorttype+' '+atheme);
 			var url = '/webapp/main/showAccoList?atype='+atype+'&checkinout='+checkinout+'&asorttype='+sorttype+'&agu='+agu+'&asubway='+asubway+"&atheme="+atheme;
-			alert(url);
+			
 			location.href=url;
 		});
 	

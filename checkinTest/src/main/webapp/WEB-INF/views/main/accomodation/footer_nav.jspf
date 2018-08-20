@@ -24,7 +24,7 @@
 		</div>
 		<!-- ==================== footer 올리고 내리는거 아이콘있는곳======================================= -->
 
-		<form class="border rounded" id="search-out">
+		<div class="border rounded" id="search-out">
 			<ul>
 				<!--     =========================== 숙박유형=========================== -->
 				<li class="type-list container dropdown">
@@ -54,10 +54,9 @@
 				<li class="container"><input type="text" value="${checkinout}"
 					class="rounded btn btn-light border" name="bottom-checkinout" /></li>
 				<li class="container">
-				<button type="submit" 
-						class="btn w3-deep-orange rounded searchButton" style="width: 80%">검색</button></li>
+				<button class="btn w3-deep-orange rounded searchButton" style="width: 80%">검색</button></li>
 			</ul>
-		</form>
+		</div>
 
 	</nav>
 

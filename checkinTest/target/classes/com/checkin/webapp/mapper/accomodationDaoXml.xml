@@ -14,17 +14,22 @@ and agu like '%'|| #{agu} ||'%'
 </if>
 </select>
 
-<select id="selectAllList" resultType="com.checkin.webapp.accomodation.model.AccomodationVO" parameterType="com.checkin.webapp.accomodation.model.AccomodationVO">
+<select id="selectAllList" resultType="com.checkin.webapp.accomodation.model.AccomodationVO">
 	select acco.a a, acco.mid a, aname,atel,aaddr,atype,acheckin, acheckout,aimg1,aimg2,aimg3,atheme, agrade , amaxprice , aminprice 
 	from (
 		select * from accomodation where atype= #{atype}
-		<if test="asubway != null">
+		<if test="asubway != null and !(asubway.equals(''))">
 		and asubway like '%'|| #{asubway} ||'%'
 		</if>
-		<if test = "agu != null">
+		<if test = "agu != null and !(agu.equals(''))">
 		and agu like '%'|| #{agu} ||'%'
 		</if>
 		<![CDATA[ AND ROWNUM <= #{acurpage}*#{aonepage} ]]>
+		<if test="athemeList != null">
+		 <foreach collection="athemeList" item="item" index="index"  open="" close="" separator=" ">
+           and atheme like '%'|| #{item} ||'%'
+        </foreach>
+        </if>
 	) acco left outer join 
 	(select a, min(rprice) aminprice, max(rprice) amaxprice from room group by a) ro  
 	on acco.a = ro.a 
