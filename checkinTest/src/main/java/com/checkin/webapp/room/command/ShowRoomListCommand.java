@@ -30,16 +30,17 @@ public class ShowRoomListCommand implements RoomCommandInterface {
 	public ModelAndView execute(HttpServletRequest request) {
 		ModelAndView mav = new ModelAndView();
 		String aStr = request.getParameter("a");
-
+		SimpleDateFormat mSimpleDateFormat = new SimpleDateFormat ( "yyyy/MM/dd", Locale.KOREA );
+		Date currentTime = new Date ();
+		String today = mSimpleDateFormat.format ( currentTime ).toString();
 		int a = 0;
 		if(aStr != null && aStr != "") a = Integer.parseInt(aStr);
 		String checkinout = request.getParameter("checkinout");
 		
 		//checkinout이 null 일 경우
 		if(checkinout==null) {
-			SimpleDateFormat mSimpleDateFormat = new SimpleDateFormat ( "yyyy/MM/dd", Locale.KOREA );
-			Date currentTime = new Date ();
-			checkinout = mSimpleDateFormat.format ( currentTime ).toString() + "-"+ mSimpleDateFormat.format ( currentTime ).toString();
+			checkinout = today + "-"+ today;
+			
 		}
 		String checkin = checkinout.split("-")[0].trim();
 		String checkout = checkinout.split("-")[1].trim();
@@ -81,7 +82,11 @@ public class ShowRoomListCommand implements RoomCommandInterface {
 		
 		//==================== Session 처리 ========================//
 		HttpSession session = request.getSession();
-		session.setAttribute("checkinout", checkinout);
+		
+		System.out.println("형식 변환..."+checkin.replaceAll("/", "-"));
+		session.setAttribute("checkin", checkin.replaceAll("/", "-"));
+		session.setAttribute("checkout", checkout.replaceAll("/", "-"));
+		session.setAttribute("today", today.replaceAll("/", "-"));
 		
 		
 		//=========================================================//

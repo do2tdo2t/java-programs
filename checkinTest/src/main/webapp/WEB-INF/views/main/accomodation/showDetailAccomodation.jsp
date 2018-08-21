@@ -57,45 +57,36 @@ label {
 }
 </style>
 <script>
-$(function() {
-	//datetimepicker
-	$('input[name="acheckinout"]').daterangepicker(
-		{
-			opens : 'left',
-			locale: {
-				    format: 'YYYY/MM/DD'
-			}
-		})
-});
+
 function whenclickbookingbtn(a,r){
 	
-var u = '${session.u}';
+var u = '${u}';
 var checkinout =  $("#acheckinout").val();
-var bcheckin = checkinout.split('-')[0].trim();
-var bcheckout = checkinout.split('-')[1].trim();
+var bcheckin = $("#checkin").val();
+var bcheckout =  $("#checkout").val();
 if(bcheckin==bcheckout){
 	alert("날짜를 지정해주세요");
 	return false;
 }
 
-//if(u != null || u != ''){
-//	var result = confirm("로그인이 필요합니다. 로그인 페이지로 이동 하시겠습니까?",'Check in !');
-//	if(result == true){
-//		alert('이동');
-//	}
-//}else{
-	var checkinout =  $("#acheckinout").val();
+ if(u != null || u != ''){
+	var result = confirm("로그인이 필요합니다. 로그인 페이지로 이동 하시겠습니까?",'Check in !');
+	if(result == true){
+		alert('이동');
+	}
+}else{
+	var checkinout =  $("#checkin").val(); +" ~ " +  $("#checkout").val();
 	var people = $("#people").val();
 	var result = confirm(checkinout +" 날짜에  인원수 : "+ people+"\n\n 예약 하시겠습니까? 예를 누르면 예약 됩니다.");
 		if(result == true){
-			ajax_booking(a,r,checkinout,people,43);				
+			ajax_booking(a,r,checkinout,people,u);				
 		}
-//	}
+	}
 }
 
 function ajax_booking(a,r,checkinout, people,u){
-	var bcheckin = checkinout.split('-')[0].trim();
-	var bcheckout = checkinout.split('-')[1].trim();
+	var bcheckin = $("#checkin").val();
+	var bcheckout =  $("#checkout").val();
 	
 	var params = "a="+a+"&r="+r+"&bcheckin="+bcheckin+"&bcheckout="+bcheckout+"&bcount="+people+"&u="+u;
 	
@@ -159,9 +150,16 @@ function ajax_booking(a,r,checkinout, people,u){
 						<hr />
 						<form action="/action_page.php" target="_blank">
 							<p>
-								<i class="fa fa-calendar-check-o"> <label>일자</label></i>
+								<i class="fa fa-calendar-check-o"> <label>체크인</label></i>
 							</p>
-							<input type="text" class="w3-input w3-border" name="acheckinout" id="acheckinout" value="${checkinout}" /> <br />
+							
+							<input type="date" class="w3-input w3-border" name="checkin" id="checkin" value='${checkin}' min="${session.today}"/> <br />
+							<p>
+								<i class="fa fa-calendar-check-o"> <label>체크아웃</label></i>
+							</p>
+							
+							
+							<input type="date" class="w3-input w3-border" name="checkout" id="checkout" value='${checkout}' min ="${session.today}"/> <br />
 							<p>
 								<i class="fa fa-male"> <label>인원수</label></i>
 							</p>
