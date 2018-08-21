@@ -15,15 +15,15 @@
 	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
-<link rel="stylesheet" href="<%=request.getContextPath()%>/css/default.css" />
+<link rel="stylesheet" href="/webapp/css/default.css" />
 <script type="text/javascript"
 	src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
-<script type="text/javascript" src="<%=request.getContextPath()%>/js/showAccomodationList.js"></script>
+<script type="text/javascript" src="/webapp/js/showAccomodationList.js"></script>
 
 <!-- daterangepicker-->
-<script src="<%=request.getContextPath()%>/js/daterangepicker.js"></script>
-<link rel="stylesheet" href="<%=request.getContextPath()%>/css/daterangepicker.css">
-<link rel="stylesheet" href="<%=request.getContextPath()%>/css/showAccomodationList.css">
+<script src="/webapp/js/daterangepicker.js"></script>
+<link rel="stylesheet" href="/webapp/css/daterangepicker.css">
+<link rel="stylesheet" href="/webapp/css/showAccomodationList.css">
 <!-- navermap api -->
 <script type="text/javascript"
 	src="https://openapi.map.naver.com/openapi/v3/maps.js?clientId=Ve4ILimYsUbRNnlZeSVm&submodules=geocoder"></script>

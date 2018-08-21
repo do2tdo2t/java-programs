@@ -2,7 +2,7 @@ package com.checkin.webapp.member.model;
 
 public class MemberVO {
 	private int u; //시퀀스
-	private String uid;//유저아이디
+	private String uuid;//유저아이디
 	private String upwd;//유저비밀번호
 	private String uname;//유저이름
 	private String uaddr;//유저 주소(시만 작성)
@@ -25,11 +25,11 @@ public class MemberVO {
 	public void setU(int u) {
 		this.u = u;
 	}
-	public String getUid() {
-		return uid;
+	public String getUuid() {
+		return uuid;
 	}
-	public void setUid(String uid) {
-		this.uid = uid;
+	public void setUuid(String uuid) {
+		this.uuid = uuid;
 	}
 	public String getUpwd() {
 		return upwd;

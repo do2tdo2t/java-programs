@@ -16,9 +16,16 @@ public class RoomVO {
 	private int rdiningroom;//거실 수
 	private int rkitchen;// 주방 수
 	private String rtheme; //테마(복층, 스파, PC커플, 온돌)
+	private int rgrade;
 	private String writedate; //입력날짜
 	
 	
+	public int getRgrade() {
+		return rgrade;
+	}
+	public void setRgrade(int rgrade) {
+		this.rgrade = rgrade;
+	}
 	public String getWritedate() {
 		return writedate;
 	}
@@ -120,7 +127,7 @@ public class RoomVO {
 		return "RoomVO [r=" + r + ", a=" + a + ", mid=" + mid + ", rname=" + rname + ", rmin=" + rmin + ", rmax=" + rmax
 				+ ", rprice=" + rprice + ", rimg1=" + rimg1 + ", rimg2=" + rimg2 + ", rimg3=" + rimg3 + ", rbedroom="
 				+ rbedroom + ", rrestroom=" + rrestroom + ", rdiningroom=" + rdiningroom + ", rkitchen=" + rkitchen
-				+ ", rtheme=" + rtheme + ", writedate=" + writedate + "]";
+				+ ", rtheme=" + rtheme + ", rgrade=" + rgrade + ", writedate=" + writedate + "]";
 	}
 
 	
