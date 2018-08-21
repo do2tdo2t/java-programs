@@ -1,13 +1,18 @@
 package com.checkin.webapp.booking.model;
 
-import java.util.List;
-
 public class CheckBookingVO {
 	private int a;
+	private int r;
 	private String checkin;
 	private String checkout;
 	
 	
+	public int getR() {
+		return r;
+	}
+	public void setR(int r) {
+		this.r = r;
+	}
 	public int getA() {
 		return a;
 	}
@@ -29,7 +34,7 @@ public class CheckBookingVO {
 	}
 	@Override
 	public String toString() {
-		return "CheckBookingVO [a=" + a + ", checkin=" + checkin + ", checkout=" + checkout + "]";
+		return "CheckBookingVO [a=" + a + ", r=" + r +", checkin=" + checkin + ", checkout=" + checkout + "]";
 	}
 	
 }

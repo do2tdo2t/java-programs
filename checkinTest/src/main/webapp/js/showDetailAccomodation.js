@@ -1,13 +1,4 @@
-	$(function() {
-		//datetimepicker
-		$('input[name="checkinout"]').daterangepicker(
-				{
-					opens : 'left',
-					locale: {
-					      format: 'YYYY/MM/DD'
-					   }
-				})
-	});
+
 	
 	//<!-- 클릭시 이미지 fa fa-caret-up 이걸로 바뀜 -->
 	function whenClickReview() {

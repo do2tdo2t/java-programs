@@ -57,9 +57,26 @@ label {
 }
 </style>
 <script>
+$(function() {
+	//datetimepicker
+	$('input[name="acheckinout"]').daterangepicker(
+		{
+			opens : 'left',
+			locale: {
+				    format: 'YYYY/MM/DD'
+			}
+		})
+});
 function whenclickbookingbtn(a,r){
 	
 var u = '${session.u}';
+var checkinout =  $("#acheckinout").val();
+var bcheckin = checkinout.split('-')[0].trim();
+var bcheckout = checkinout.split('-')[1].trim();
+if(bcheckin==bcheckout){
+	alert("날짜를 지정해주세요");
+	return false;
+}
 
 //if(u != null || u != ''){
 //	var result = confirm("로그인이 필요합니다. 로그인 페이지로 이동 하시겠습니까?",'Check in !');
@@ -67,11 +84,11 @@ var u = '${session.u}';
 //		alert('이동');
 //	}
 //}else{
-	var acheckinout =  $("#acheckinout").val();
+	var checkinout =  $("#acheckinout").val();
 	var people = $("#people").val();
-	var result = confirm(acheckinout +" 날짜에  인원수 : "+ people+"\n\n 예약 하시겠습니까? 예를 누르면 예약 됩니다.");
+	var result = confirm(checkinout +" 날짜에  인원수 : "+ people+"\n\n 예약 하시겠습니까? 예를 누르면 예약 됩니다.");
 		if(result == true){
-			ajax_booking(a,r,acheckinout,people,u);				
+			ajax_booking(a,r,checkinout,people,43);				
 		}
 //	}
 }
@@ -101,6 +118,7 @@ function ajax_booking(a,r,checkinout, people,u){
 		},
 		error : function(e) {
 			console.log(e.responseText);
+			alert("죄송합니다. 예약에 실패 했습니다. 잠시 후 다시 시도 해 주세요.");
 		}
 	})
 	
