@@ -24,4 +24,6 @@ public interface MasterDAOInterface {
 	public int deleteMaster(MasterVO vo);
 	
 	public List<MasterVO> selectAllMaster(MasterVO vo);
+	
+	public MasterVO loginMaster(MasterVO vo);//로그인
 }

@@ -26,17 +26,23 @@ public class LoginOkMasterCommand implements MasterCommandInterface{
 
 	public MasterVO executeVo(HttpServletRequest request, MasterVO vo) {
 		MasterDAOInterface dao = Constants.sqlSession.getMapper(MasterDAOInterface.class);
-		MasterVO vo2 = dao.selectMaster(vo);
+		//로그인 처리
+		MasterVO vo2 = dao.loginMaster(vo);
+		System.out.println("LoginOkMaster.."+vo.toString());
 		
 		if(vo2!=null) {
 			HttpSession session = request.getSession();
 			session.setAttribute("mname", vo2.getMname());
 			session.setAttribute("mid", vo2.getMid());
-			session.setAttribute("aname", vo2.getAname());
+			
 			session.setAttribute("type", "M");
 			session.setAttribute("logChk", "Y");
+			
+			//session.setAttribute("aname", vo2.getAname());
+			//session.setAttribute("a", vo2.getA());
+			//selectOneRecord -accomodation
 		}else {
-			System.out.println("vo2 is null....");
+			System.out.println("LoginOkMaster.. 로그인 실패");
 		}
 		return vo2;
 	}

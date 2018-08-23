@@ -16,7 +16,7 @@
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
 <link rel="stylesheet" type='text/css'
-	href="<%=request.getContextPath()%>/css/default.css">
+	href="/webapp/css/default.css">
 <!-- body 구성에 적용 되는 스타일 시트 -->
 <link rel="stylesheet" type='text/css'
 	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">

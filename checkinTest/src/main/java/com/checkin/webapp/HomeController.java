@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.checkin.webapp.master.command.ShowMasterMain;
+import com.checkin.webapp.accomodation.command.ShowAccoChart;
 
 /**
  * Handles requests for the application home page.
@@ -51,9 +51,9 @@ public class HomeController {
 		return "webmaster/main";
 	}
 
-	@RequestMapping(value="/master", method = RequestMethod.GET)
-	public ModelAndView masterMain(HttpServletRequest request) {
-		return new ShowMasterMain().execute(request);
-	}
+//	@RequestMapping(value="/master", method = RequestMethod.GET)
+//	public ModelAndView masterMain(HttpServletRequest request) {
+//		return new ShowMasterMain().execute(request);
+//	}
 	
 }

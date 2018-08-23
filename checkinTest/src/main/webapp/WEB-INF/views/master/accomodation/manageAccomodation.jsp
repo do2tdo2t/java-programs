@@ -62,26 +62,14 @@
 				    <a class="nav-link w3-text-white w3-large active"  href="/webapp/master/viewAcco"><b>숙소  보기</b></a>
 				  </li>
 				  <li class="nav-item btn btn-primary">
-				    <a class="nav-link w3-text-black w3-large"  href="/webapp/master/editAcco?a=${vo.a}"><b>숙소 정보 수정</b></a>
+				    <a class="nav-link w3-text-black w3-large"  href="/webapp/master/editAcco"><b>숙소 정보 수정</b></a>
 				  </li>
 				   <li class="nav-item btn btn-primary">
 				    <a class="nav-link w3-text-black w3-large"  href="#"><b>숙소 정보 삭제</b></a>
 				  </li>
-				  <li class="nav-item">
-				    	<a class="nav-link" href="/webapp/master/insertAcco?mid=${vo.mid}"><i class="fa fa-plus-square"></i> 새 숙소 등록</a>
-				    </li>
 				 </c:if>
-				 
-				   <!-- 숙소 정보 없을 때 -->
-				 <c:if test="${vo.a==null or vo.a==''}" >
-				 	<li class="nav-item">
-				    	<a class="nav-link" href="#"><i class="fa fa-plus-square"></i> 새 숙소 등록</a>
-				    </li>
-				 </c:if>
-				 
 				</ul>
-				
-	
+	  <c:if test="${vo.a!=null and vo.a!=''}" >
 <!--  a, mid,aname, atel , aaddr, acheckin, acheckout, agil, amaxreservedate, amaxsleepdate, anotice, aimg1,aimg2,aimg3 -->
 			<!-- 업소 간략 정보 -->
 			<div class="reginfoFrm w3-card-4 w3-bar" style="margin-top:50px;">
@@ -155,16 +143,14 @@
 					</div>
 
 				</div>
-
-				
 			</div>
-			<!-- 업소 관리 버튼 -->
-
+</c:if>
 
 
 
 		</div>
-					<!-- footer -->
+		
+		<!-- footer -->
 		<footer id="footer" class="footer" style="width: 100%; font-size: 0.8em; margin-top: 150px">
 			<%@ include file="../companyInfo.jspf"%>
 		</footer>

@@ -28,7 +28,7 @@
 </style>
 </head>
 <body>
-	<%@ include file="topnav_master.jspf"%>
+	<%@ include file="../topnav_master.jspf"%>
 	<div class="row main" id="main">
 		<aside class="col-lg-1"></aside>
 
@@ -74,7 +74,7 @@
 
 		<aside class="col-lg-1"></aside>
 		<footer id="footer" class="footer" style="width:100%;font-size:0.8em;margin-top:50px">
-		<%@ include file="companyInfo.jspf"%>
+		<%@ include file="../companyInfo.jspf"%>
 		</footer>
 		
 	</div>

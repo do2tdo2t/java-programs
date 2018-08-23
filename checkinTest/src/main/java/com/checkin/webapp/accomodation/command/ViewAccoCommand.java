@@ -25,12 +25,17 @@ public class ViewAccoCommand implements AccomodationCommandInterface {
 		String mid = getMidToSession(request);
 		if(mid != null && mid != "") {
 			System.out.println("GetAccoCommand.."+mid);
-			mav.setViewName("master/accomodation/manageAccomodation");
+		
 			//dao처리
 			AccomodationVO vo = excuteDAO(mid);
-			mav.addObject("accoVO", vo);
+			if(vo==null) {
+				System.out.println("ViewAccomodation.. 등록된 숙소 정보가 존재 하지 않습니다.");
+				mav.setViewName("master/first");
 			
-			System.out.println("GetAccoCommand.."+vo.toString());
+			}else {
+				mav.addObject("accoVO", vo);
+				mav.setViewName("master/accomodation/manageAccomodation");
+			}
 		}else {
 			mav.setViewName("redirect:/main/login");
 		}
@@ -48,6 +53,7 @@ public class ViewAccoCommand implements AccomodationCommandInterface {
 		vo.setMid(mid);
 	
 		AccomodationDAOInterface dao = Constants.sqlSession.getMapper(AccomodationDAOInterface.class);
+		System.out.println("ViewAccomodationDAO..excuteDAO.."+vo.toString());
 		return dao.selectOneRecord(vo);
 
 	}

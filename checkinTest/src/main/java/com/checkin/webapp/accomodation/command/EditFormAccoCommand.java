@@ -1,6 +1,7 @@
 package com.checkin.webapp.accomodation.command;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.web.servlet.ModelAndView;
 
@@ -23,11 +24,12 @@ public class EditFormAccoCommand implements AccomodationCommandInterface {
 		mav.setViewName("master/accomodation/editAccomodation");
 		//dao 작업
 		AccomodationDAOInterface dao  = Constants.sqlSession.getMapper(AccomodationDAOInterface.class);
-
-		String aStr = request.getParameter("a");
-		if(aStr!= null && aStr!="") a = Integer.parseInt(aStr);
+		//session에서 객체 받아오기
+		HttpSession session = request.getSession();
+		String mid = (String)session.getAttribute("mid");
+		
 		AccomodationVO vo = new AccomodationVO();
-		vo.setA(a);
+		vo.setMid(mid);
 		AccomodationVO resultVo = dao.selectOneRecord(vo);
 		System.out.println(resultVo.toString());
 		mav.addObject("accoVO",resultVo);
