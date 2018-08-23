@@ -89,15 +89,23 @@
 
 							<!-- The slideshow -->
 							<div class="carousel-inner" style="width: 100%">
+								
 								<div class="carousel-item active">
-									<img src="${vo.aimg1}" class="roomsImg">
+									<img src="${vo.aimg1}" class="roomsImg" onerror="this.src='/webapp/img/1.png'" >
+								
 								</div>
+								
+								
 								<div class="carousel-item">
-									<img src="${vo.aimg2}" class="roomsImg">
+									<img src="${vo.aimg2}" class="roomsImg" onerror="this.src='/webapp/img/1.png'" >
+
 								</div>
+							
+								
 								<div class="carousel-item">
-									<img src="${vo.aimg3}" class="roomsImg">
+									<img src="${vo.aimg3}" class="roomsImg" onerror="this.src='/webapp/img/1.png'" >
 								</div>
+								
 							</div>
 
 							<!-- Left and right controls -->

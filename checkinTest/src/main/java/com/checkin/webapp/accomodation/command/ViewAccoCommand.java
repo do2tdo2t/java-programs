@@ -33,6 +33,7 @@ public class ViewAccoCommand implements AccomodationCommandInterface {
 				mav.setViewName("master/first");
 			
 			}else {
+				System.out.println("ViewAccomodationDAO..excuteDAO.."+vo.toString());
 				mav.addObject("accoVO", vo);
 				mav.setViewName("master/accomodation/manageAccomodation");
 			}
@@ -53,7 +54,7 @@ public class ViewAccoCommand implements AccomodationCommandInterface {
 		vo.setMid(mid);
 	
 		AccomodationDAOInterface dao = Constants.sqlSession.getMapper(AccomodationDAOInterface.class);
-		System.out.println("ViewAccomodationDAO..excuteDAO.."+vo.toString());
+	
 		return dao.selectOneRecord(vo);
 
 	}
