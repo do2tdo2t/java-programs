@@ -1,50 +1,7 @@
-/**
- * 				숙박업소유형 : type
-				숙박업소이름 : aname
-				숙박업소도로면주소 : addr
-				숙박업소 전화번호 : tel
-				checkin/chechout 시간 HH:MM
-				img1,img2,img3
-				기타 정보 - info (checkbox)
- * 
- * 
- */
-var blankMsg = "필수 정보입니다.";
-var wrongMsg = "잘못 입력하셨습니다.";
-$(function(){
-	$('#checkin').timepicki({start_time:["03", "00", "PM"]});
-	$('#checkout').timepicki({start_time:["12", "00", "AM"]});
-	
-	$("#dataform").submit(function(){
-		var result = true;
-		result &= checkAname();
-		result &= checkTel();
-		result &= checkAddr();
-		result &= checkMaxsleepdate();
-		result &= checkMaxreservedate();
-		result &= checkCheckIn();
-		result &= checkCheckOut();
-		if(result==0)return false;
-		else return true;
-	});
-	
-	$("#aname").focusout(function(){
-		checkAname();
-	});
-	$("#tel").focusout(function(){
-		checkTel();
-	});
-	
-	$("#maxsleepdate").focusout(function(){
-		checkMaxsleepdate();
-	});
-	$("#maxreservedate").focusout(function(){
-		checkMaxreservedate();
-	});
-});
 
 
 function checkAname(){
+	
 	var msg = "";
 	var result = true;
 	var data =$("#aname").val();
@@ -96,7 +53,7 @@ function checkTel(){
 function checkCheckIn(){
 	var msg = "";
 	var result = true;
-	var data =$("#checkin").val();
+	var data =$("#acheckin").val();
 	if(data == ""){
 		msg = blankMsg;
 		result= false;
@@ -108,7 +65,7 @@ function checkCheckIn(){
 function checkCheckOut(){
 	var msg = "";
 	var result = true;
-	var data =$("#checkout").val();
+	var data =$("#acheckout").val();
 	if(data == ""){
 		msg = blankMsg;
 		result= false;
@@ -148,8 +105,8 @@ function checkBlankForm(){
 	var aname = $("#aname").val();
 	var addr = $("#addr").val();
 	var tel = $("#tel").val();
-	var checkin = $("#checkin").val();
-	var checkout = $("#checkout").val();
+	var checkin = $("#acheckin").val();
+	var checkout = $("#aheckout").val();
 	var maxsleepdate =  $("#maxsleepdate").val();
 	var maxreservedate =  $("#maxreservedate").val();
 	var img1 =  $("#img1").val();

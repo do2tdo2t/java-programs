@@ -9,11 +9,28 @@ public class MasterVO {
 	private String memail; //가맹점이메일
 	private	String writedate; //가입날짜
 	
+	private int a;
+	private String aname;
+	
 	private int mcurpage; //현재 페이지
 	private int monepage; //한 페이지에 보여질 리스트 개수
 	private String msearchkey;//검색조건
 	private String msearchvalue; //검색값
 	
+	
+
+	public int getA() {
+		return a;
+	}
+	public void setA(int a) {
+		this.a = a;
+	}
+	public String getAname() {
+		return aname;
+	}
+	public void setAname(String aname) {
+		this.aname = aname;
+	}
 	public int getMcurpage() {
 		return mcurpage;
 	}

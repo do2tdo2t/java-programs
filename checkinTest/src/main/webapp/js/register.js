@@ -90,6 +90,7 @@ function checkUname(){
 	// 이름검사 :한글,2~6글자까지 허용
 	var data = $("#uname").val();
 	var reg = /^[가-힣]{2,6}$/;
+	
 	if (!reg.test(data)) {
 		
 		$("#unameMsg").html("이름 형식이 잘못 되었습니다.");
