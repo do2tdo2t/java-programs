@@ -1,4 +1,4 @@
-package com.checkin.webapp.accomodation.command;
+package com.checkin.webapp.master.command;
 
 import java.util.ArrayList;
 
@@ -8,14 +8,14 @@ import javax.servlet.http.HttpSession;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.checkin.webapp.Constants;
+import com.checkin.webapp.accomodation.command.AccomodationCommandInterface;
 import com.checkin.webapp.accomodation.model.AccomodationDAOInterface;
 import com.checkin.webapp.accomodation.model.AccomodationVO;
-import com.checkin.webapp.master.command.MasterCommandInterface;
 import com.checkin.webapp.master.model.MasterChartVO;
 import com.checkin.webapp.master.model.MasterDAOInterface;
 import com.checkin.webapp.master.model.MasterVO;
 
-public class ShowAccoChart implements AccomodationCommandInterface{
+public class ShowMasterChart implements AccomodationCommandInterface{
 
 
 	@Override

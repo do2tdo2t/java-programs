@@ -132,5 +132,34 @@ and agu like '%'|| #{agu} ||'%'
 	</if>
 	where a = #{a}
 </update>
+<insert id="insertAccomodation">
+insert into 
+accomodation(a,mid,aname,atel,aaddr,atype,acheckin,acheckout,asi,agu,agil,adong,agunmul,aimg1,aimg2,aimg3,amaxreservedate,amaxsleepdate,atheme,anotice,writedate,asubway)
+ values (
+ 	accosq.nextval,
+ 	#{mid},
+ 	#{aname},
+ 	#{atel},
+ 	#{aaddr},
+ 	#{atype},
+ 	#{acheckin},
+ 	#{acheckout},
+ 	#{asi},
+ 	#{agu},
+ 	#{agil},
+ 	#{adong},
+ 	#{agunmul},
+ 	#{aimg1},
+ 	#{aimg2},
+ 	#{aimg3},
+ 	#{amaxreservedate},
+ 	#{amaxsleepdate},
+ 	#{atheme},
+ 	#{anotice},
+ 	sysdate,
+ 	'종로5가'
+ )
+ 
+</insert>
 
 </mapper>

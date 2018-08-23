@@ -21,7 +21,7 @@ body, html {height: 100%}
 </style>
 <script>
 	function whenclickbtn(){
-		location.href="/webapp/master/insertAcco?mid=${session.mid}";
+		location.href="/webapp/master/insertAcco";
 	}
 
 </script>

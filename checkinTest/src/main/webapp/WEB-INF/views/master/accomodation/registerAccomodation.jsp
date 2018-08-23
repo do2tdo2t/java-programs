@@ -105,10 +105,11 @@
 			$("#roadFullAddr").val(roadFullAddr);
 			$("#roadAddrPart1").val(roadAddrPart1);
 			$("#addrDetail").val(addrDetail);
-			$("#a").val(zipNo);
+			$("#a").val(zipNo.trim());
 			$("#adong").val(roadAddrPart2);
+			alert($("#a").val());
 			$.each(aaddr, function(i, l) {
-
+				
 				if (l.match(sireg) != null) {
 					console.log(l.match(sireg));
 					$("#asi").val(l.match(sireg));
@@ -174,13 +175,16 @@
 			<form id="dataform" class="form-horizontal font1-medium list-group"
 				method="post" onsubmit="return whenClickSubmitBtn()"
 				action="/webapp/master/insertOkAcco" enctype="multipart/form-data">
-				<input type="hidden" value="${vo.mid}" id="mid" name="mid" />
+				<input type="hidden" value="${mid}" id="mid" name="mid" />
 				<!-- 주소 관련 hidden form -->
 
-				<input type="hidden" id="a" name="a" /> <input type="hidden"
-					id="asi" name="asi" /> <input type="hidden" id="agu" name="agu" />
-				<input type="hidden" id="agil" name="agil" /> <input type="hidden"
-					id="adong" name="adong" /> <input type="hidden" id="agunmul"
+				<input type="hidden" id="a" name="a" /> 
+				<input type="hidden" id="asi" name="asi" /> 
+					<input type="hidden" id="agu" name="agu" />
+				<input type="hidden" id="agil" name="agil" /> 
+				<input type="hidden"
+					id="adong" name="adong" /> 
+					<input type="hidden" id="agunmul"
 					name="agunmul" />
 
 				<!-- 숙박 업소 유형 -->
@@ -195,6 +199,8 @@
 						<option>게스트하우스</option>
 					</select> <span class="error-text-box" id="typeMsg"></span>
 				</div>
+				
+				
 
 				<!-- 숙박 업소 이름 -->
 				<div class="form-group row list-group-item">
@@ -208,13 +214,41 @@
 				<div class="form-group row list-group-item">
 					<i class="fa fa-address-card-o"> <label>숙박 업소 도로명 주소</label></i>
 					<div class="input-group">
-						<input type="text" id="roadFullAddr" name="roadFullAddr"
+						<input type="text" id="roadFullAddr" name="aaddr"
 							class="form-control col-sm-8" readonly />
 						<button type="button" name="searchAddr"
 							class="form-control btn btn-success col-sm-2"
 							onclick="goJusoPopup()">주소 검색</button>
 						<span class="error-text-box" id="addrMsg"></span>
 					</div>
+				</div>
+					
+				<!-- 인근 지하철 유형 -->
+				<div class="form-group row list-group-item">
+					<i class="fa fa-fort-awesome"> <label for="#subwaySelector">인근 지하철 </label></i> 
+					<select class="form-control col-sm-5" id="subwaySelector"
+						name="asubway">
+						<option class="">강남/역삼/삼성/논현</option>
+						<option class="">서초/신사/방배역</option>
+						<option class="">동묘/신설동/청량리/회기</option>
+						<option class="">장안동/답십리</option>
+						<option class="">신림/서울대/사당/금천/동작</option>
+						<option class="">신촌/홍대/합정</option>
+						<option class="">강서/화곡/까치산/양천</option>
+						<option class="">수유/미아</option>
+						<option class="">잠실/신천</option>
+						<option class="">신촌/홍대/합정</option>
+						<option class="">동묘/신설동/청량리/회기</option>
+						<option class="">연신내/불광/응암</option>
+						<option class="">상봉/중랑/면목</option>
+						<option class="">태릉/노원/도봉/창동</option>
+						<option class="">종로(3,5가)/혜화</option>
+						<option class="">동대문/충무로/신당/약수/금호</option>
+						<option class="">성신여대/성북/월곡</option>
+						<option class="">왕십리/성수/강변</option>
+						<option class="">건대/군자/구의</option>
+						<option class="">이태원/삼각지/용산/서울/명동/회현</option>
+					</select>
 				</div>
 
 				<!-- 숙박 업소 전화번호 -->
@@ -356,6 +390,5 @@
 		</footer>
 	</div>
 
-	<%@ include file="searchAddr.jspf"%>
 </body>
 </html>
