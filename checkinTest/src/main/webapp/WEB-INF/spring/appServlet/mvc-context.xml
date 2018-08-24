@@ -24,7 +24,7 @@
 			<mvc:mapping path="/master/viewAcco" />
 			<mvc:mapping path="/master/showAccoList" />
 			<mvc:mapping path="/master/showChart" />
-			<mvc:mapping path="/master/master/deleteAcco" />
+			<mvc:mapping path="/master/deleteAcco" />
 			
 			<mvc:mapping path="/master/addGuestroomInfo" />
 			<mvc:mapping path="/master/deleteGuestroomInfo" />
@@ -42,7 +42,7 @@
 			<mvc:mapping path="/master/viewAcco" />
 			<mvc:mapping path="/master/showAccoList" />
 			<mvc:mapping path="/master/showChart" />
-			<mvc:mapping path="/master/master/deleteAcco" />
+			<mvc:mapping path="/master/deleteAcco" />
 			
 			<mvc:mapping path="/master/addGuestroomInfo" />
 			<mvc:mapping path="/master/deleteGuestroomInfo" />
