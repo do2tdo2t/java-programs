@@ -24,9 +24,10 @@
 <script src="/webapp/js/accomodationForm.js"></script>
 
 <script type="text/javascript">
+var blankMsg = "필수 정보입니다.";
+var wrongMsg = "잘못 입력하셨습니다.";
 	$(function() {
-		var blankMsg = "필수 정보입니다.";
-		var wrongMsg = "잘못 입력하셨습니다.";
+		
 		$("#searchAddr").click(function() {
 			$('#searchAddr-modal').modal('show');
 		});
@@ -56,22 +57,21 @@
 	}
 
 	function whenClickSubmitBtn() {
-		alert("submit");
 		var result = true;
 		result &= checkAname();
-		alert(result);
+	
 		result &= checkTel();
-		alert(result);
+		
 		result &= checkAddr();
-		alert(result);
+
 		result &= checkMaxsleepdate();
-		alert(result);
+
 		result &= checkMaxreservedate();
-		alert(result);
+
 		result &= checkCheckIn();
-		alert(result);
+	
 		result &= checkCheckOut();
-		alert(result);
+
 		if (result == 0) {
 			return false;
 		} else {
@@ -160,18 +160,7 @@
 			<div class="font1-small" style="padding: 20px 0">
 				<a href="manageAccomodation.jsp">숙소 관리 페이지</a>
 			</div>
-
-			<!-- 
-				form  
-				숙박업소유형 : type
-				숙박업소이름 : aname
-				숙박업소도로면주소 : addr
-				숙박업소 전화번호 : tel
-				checkin/chechout 시간 HH:MM
-				img1,img2,img3
-				기타 정보 - info (checkbox)
-				
-			-->
+			s
 			<form id="dataform" class="form-horizontal font1-medium list-group"
 				method="post" onsubmit="return whenClickSubmitBtn()"
 				action="/webapp/master/insertOkAcco" enctype="multipart/form-data">

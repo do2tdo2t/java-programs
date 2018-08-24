@@ -12,6 +12,13 @@ public class MasterVO {
 	private int a;
 	private String aname;
 	
+	@Override
+	public String toString() {
+		return "MasterVO [m=" + m + ", mid=" + mid + ", mpwd=" + mpwd + ", mname=" + mname + ", mtel=" + mtel
+				+ ", memail=" + memail + ", writedate=" + writedate + ", a=" + a + ", aname=" + aname + ", mcurpage="
+				+ mcurpage + ", monepage=" + monepage + ", msearchkey=" + msearchkey + ", msearchvalue=" + msearchvalue
+				+ "]";
+	}
 	private int mcurpage; //현재 페이지
 	private int monepage; //한 페이지에 보여질 리스트 개수
 	private String msearchkey;//검색조건

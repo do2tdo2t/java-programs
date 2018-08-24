@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.checkin.webapp.master.command.LoginOkMasterCommand;
+import com.checkin.webapp.master.command.ShowMasterChart;
 import com.checkin.webapp.master.model.MasterVO;
 
 @Controller
@@ -60,6 +61,11 @@ public class MasterController {
 	}
 	
 	*/
+	@RequestMapping(value="/master/showChart", method = RequestMethod.GET)
+	public ModelAndView masterMain(HttpServletRequest request) {
+		return new ShowMasterChart().execute(request);
+	}
+	
 	//로그인 성공/실패
 	// 매핑 경로 : /main/tryLoginManager
 	@RequestMapping(value="/main/tryLoginManager", method=RequestMethod.POST)

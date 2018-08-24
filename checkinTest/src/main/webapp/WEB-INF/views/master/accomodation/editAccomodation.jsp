@@ -34,7 +34,17 @@
 		var wrongMsg = "잘못 입력하셨습니다.";
 		var options = $(document).find('option');
 		var type = '${vo.atype}';
-		$(document).find('option[name='+type+']').attr('selected','selected');
+		//type 처리
+		if(type!=null && type != '')
+			$(document).find('option[name='+type+']').attr('selected','selected');
+		
+		
+			
+		//subway 처리
+		var subway = '${vo.asubway}';
+		if(subway!=null && subway != ''){
+			$(document).find('option[name='+subway+']').attr('selected','selected');
+		}
 		
 		var theme ='${vo.atheme}';
 		
@@ -160,6 +170,34 @@
 						<span class="error-text-box" id="addrMsg"></span>
 					</div>
 				</div>
+				
+					<!-- 인근 지하철 유형 -->
+				<div class="form-group row list-group-item">
+					<i class="fa fa-fort-awesome"> <label for="#subwaySelector">인근 지하철 </label></i> 
+					<select class="form-control col-sm-5" id="subwaySelector"
+						name="asubway">
+						<option name="강남/역삼/삼성/논현">강남/역삼/삼성/논현</option>
+						<option name="서초/신사/방배역">서초/신사/방배역</option>
+						<option name="동묘/신설동/청량리/회기">동묘/신설동/청량리/회기</option>
+						<option name="장안동/답십리">장안동/답십리</option>
+						<option name="신림/서울대/사당/금천/동작">신림/서울대/사당/금천/동작</option>
+						<option name="신촌/홍대/합정">신촌/홍대/합정</option>
+						<option name="강서/화곡/까치산/양천">강서/화곡/까치산/양천</option>
+						<option name="수유/미아">수유/미아</option>
+						<option name="잠실/신천">잠실/신천</option>
+						<option name="신촌/홍대/합정">신촌/홍대/합정</option>
+						<option name="동묘/신설동/청량리/회기">동묘/신설동/청량리/회기</option>
+						<option name="연신내/불광/응암">연신내/불광/응암</option>
+						<option name="상봉/중랑/면목">상봉/중랑/면목</option>
+						<option name="태릉/노원/도봉/창동">태릉/노원/도봉/창동</option>
+						<option name="종로(3,5가)/혜화">종로(3,5가)/혜화</option>
+						<option name="동대문/충무로/신당/약수/금호">동대문/충무로/신당/약수/금호</option>
+						<option name="성신여대/성북/월곡">성신여대/성북/월곡</option>
+						<option name="왕십리/성수/강변">왕십리/성수/강변</option>
+						<option name="건대/군자/구의">건대/군자/구의</option>
+						<option name="이태원/삼각지/용산/서울/명동/회현">이태원/삼각지/용산/서울/명동/회현</option>
+					</select>
+				</div>
 
 				<!-- 숙박 업소 전화번호 -->
 				<div class="form-group row list-group-item">
@@ -204,11 +242,11 @@
 						<i class="fa fa-file-image-o col-sm-12" style="font-size: 16px"> 이미지 등록(최대 3개) </i>
 					</p>
 					<div class="form-group row">
-						<span id="imgTextSpan1" name="aimg1"><input name = "aimg1" value='${vo.aimg1}' readonly/><span class="btn text-muted btn-light" onclick="whenclickimgbtn(1)">수정</span></span>
+						<span id="imgTextSpan1"><input name = "aimg1" value='${vo.aimg1}' readonly/><span class="btn text-muted btn-light" onclick="whenclickimgbtn(1)">수정</span></span>
 						<span id="fileSpan1" style="display:none"><input type="file" name="filename1"  class="file-control-form col-sm-12" ></span>
 					</div>
 					<div class="form-group row">
-						<span id="imgTextSpan2" name="aimg2"><input name = "aimg2" value='${vo.aimg2}' readonly/><span class="btn text-muted btn-light"  onclick="whenclickimgbtn(2)">수정</span></span>
+						<span id="imgTextSpan2"><input name = "aimg2" value='${vo.aimg2}' readonly/><span class="btn text-muted btn-light"  onclick="whenclickimgbtn(2)">수정</span></span>
 						<span id="fileSpan2" style="display:none"><input type="file" name="filename2"  class="file-control-form col-sm-12"></span>
 					</div>
 					<div class="form-group row">

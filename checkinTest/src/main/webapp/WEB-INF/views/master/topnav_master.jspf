@@ -98,22 +98,25 @@ myspage에서 적용할 nav-->#sideNav a, #sideNav div, #sideNav b {
 <!---------------------------------------- main navigation bar ----------------------------------->
 <nav class="navbar navbar-expand-lg" id="main-nav">
 	<div class="logo">
-		<a href="<%=request.getContextPath()%>/master/home.jsp" id="top-logo">Check In</a>
+		<a href="/webapp/master/viewAcco" id="top-logo">Check In</a>
 	</div>
 
 	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
 		<span class="navbar-toggler-icon"><i class="fa fa-align-justify" style="font-size: 30px; color: #fff"></i></span>
 	</button>
-	<c:if test="${vo.a!=null and vo.a!=''}" >
+	
+	
 	<div class="collapse navbar-collapse" id="collapsibleNavbar">
 		<ul class="navbar-nav">
-			<li class="nav-item bold"><a class="nav-link" href="<%=request.getContextPath()%>/master/login/login.jsp">로그아웃</a></li>
 			<li class="nav-item bold"><a class="nav-link" href="/webapp/master/viewAcco">숙소 관리 페이지</a></li>
-			<li class="nav-item bold"><a class="nav-link" href="<%=request.getContextPath()%>/master/room/manageDetailRoom.jsp">객실 관리 페이지</a></li>
-			<li class="nav-item bold"><a class="nav-link" href="<%=request.getContextPath()%>/master/booking/manageBookingInfo.jsp">예약 현황 페이지</a></li>
-			<li class="nav-item bold"><a class="nav-link" href="<%=request.getContextPath()%>/master/review/showReviewList.jsp">리뷰 관리 페이지</a></li>
+			<li class="nav-item bold"><a class="nav-link" href="#">객실 관리 페이지</a></li>
+			<li class="nav-item bold"><a class="nav-link" href="#">예약 현황 페이지</a></li>
+			<li class="nav-item bold"><a class="nav-link" href="#">리뷰 관리 페이지</a></li>
+			<c:if test="${mname!=null and mname!=''}" >
+				<li class="nav-item bold"><a class="nav-link" href="#">로그아웃</a></li>
+			</c:if>
 		</ul>
 	</div>
-	</c:if>
+
 </nav>
 <!--navigation bar-->

@@ -50,6 +50,12 @@ public class HomeController {
 		
 		return "webmaster/main";
 	}
+	
+	@RequestMapping(value="/master/first", method = RequestMethod.GET)
+	public String masterMain(HttpServletRequest request) {
+		if((String)request.getSession().getAttribute("mid")==null) return "main/login/login";
+		return "master/first";
+	}
 
 //	@RequestMapping(value="/master", method = RequestMethod.GET)
 //	public ModelAndView masterMain(HttpServletRequest request) {

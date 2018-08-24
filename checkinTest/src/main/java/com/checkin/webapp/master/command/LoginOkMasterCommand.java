@@ -31,13 +31,12 @@ public class LoginOkMasterCommand implements MasterCommandInterface{
 		System.out.println("LoginOkMaster.."+vo.toString());
 		
 		if(vo2!=null) {
+			System.out.println("LoginOkMaster.. 로그인 성공"+vo2.toString());
 			HttpSession session = request.getSession();
 			session.setAttribute("mname", vo2.getMname());
 			session.setAttribute("mid", vo2.getMid());
-			
 			session.setAttribute("type", "M");
 			session.setAttribute("logChk", "Y");
-			
 			//session.setAttribute("aname", vo2.getAname());
 			//session.setAttribute("a", vo2.getA());
 			//selectOneRecord -accomodation
