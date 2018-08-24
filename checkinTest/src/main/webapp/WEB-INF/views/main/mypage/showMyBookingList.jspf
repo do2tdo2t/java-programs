@@ -1,0 +1,22 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+   pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+	#review_btns button{margin:0% 1%}
+</style>
+<script>
+	function whenclickwritemodal(b){
+		$("input[name=b]").val(b);
+	}
+
+</script>
+</head>
+
+	<!-- 
+	본문은 left center right으로 나뉜다.
+	showMyBookingList - 예약 보 리스트로 보기 - 용세
+	예약한 현황, 예약 취소한 현황, 리뷰 쓰기 버튼, 예약취소정	
+	-->
+	
