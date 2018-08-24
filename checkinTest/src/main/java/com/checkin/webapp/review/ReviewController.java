@@ -6,9 +6,13 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.checkin.webapp.review.command.SelectListCommand;
+import com.checkin.webapp.review.command.SelectReviewListAjaxCommand;
+import com.checkin.webapp.review.command.SelectReviewsCntAjaxCommand;
 import com.checkin.webapp.review.model.ReviewVO;
 
 @Controller
@@ -35,5 +39,17 @@ public class ReviewController {
 	public ModelAndView showMemberReviewList(HttpServletRequest request, ReviewVO vo){
 	
 		return new SelectListCommand().execute(request,vo); 
+	}
+	
+	@RequestMapping("/main/getReivews")
+	@ResponseBody
+	public List<ReviewVO> selectReviewAjax(HttpServletRequest request, ReviewVO vo){
+		return new SelectReviewListAjaxCommand().executeAjax(request,vo);
+	}
+	
+	@RequestMapping("/main/getReivewsCnt")
+	@ResponseBody
+	public int selectReviewCntAjax(HttpServletRequest request, @RequestParam("r") int r){
+		return new SelectReviewsCntAjaxCommand().executeAjax(request,r);
 	}
 }

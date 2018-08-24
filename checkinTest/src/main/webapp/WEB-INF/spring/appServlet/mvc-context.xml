@@ -11,8 +11,7 @@
 		<!-- 일반 회원 관련 인터셉터 -->
 		<mvc:interceptor>
 			<mvc:mapping path="/main/mypage/*" />
-			<bean
-				class="com.checkin.webapp.interceptor.LoginMemberInterceptor" />
+			<bean class="com.checkin.webapp.interceptor.LoginMemberInterceptor" />
 		</mvc:interceptor>
 
 		<!-- 가맹점 회원 관련 인터셉터 -->
@@ -29,7 +28,6 @@
 			<mvc:mapping path="/master/addGuestroomInfo" />
 			<mvc:mapping path="/master/deleteGuestroomInfo" />
 			<mvc:mapping path="/master/tryAddGuestroomInfo" />
-			<mvc:mapping path="/main/room/showList" />
 			<mvc:mapping path="/master/tryModifyGuestroomInfo" />
 			<mvc:mapping path="/master/modifyGuestroomInfo" />
 			<mvc:mapping path="/master/showMyGuestroomList" />
@@ -47,7 +45,6 @@
 			<mvc:mapping path="/master/addGuestroomInfo" />
 			<mvc:mapping path="/master/deleteGuestroomInfo" />
 			<mvc:mapping path="/master/tryAddGuestroomInfo" />
-			<mvc:mapping path="/main/room/showList" />
 			<mvc:mapping path="/master/tryModifyGuestroomInfo" />
 			<mvc:mapping path="/master/modifyGuestroomInfo" />
 			<mvc:mapping path="/master/showMyGuestroomList" />

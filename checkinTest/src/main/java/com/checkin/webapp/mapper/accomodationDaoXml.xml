@@ -78,7 +78,7 @@ and agu like '%'|| #{agu} ||'%'
 	select a, atype,mid,aname, atel , aaddr, acheckin, acheckout, agil, amaxreservedate, amaxsleepdate, anotice, aimg1,aimg2,aimg3, atheme
 	from accomodation
 	<choose>
-		<when test = "mid != null">
+		<when test = "mid != null and mid != ''">
 		where mid = #{mid}
 		</when>
 		<when test ="a!=0">

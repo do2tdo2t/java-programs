@@ -23,7 +23,8 @@
 		select r from room where a = #{param1}
 	</select>
 	<select id="selectOneRoom" resultType="com.checkin.webapp.room.model.RoomVO">
-		select r, a, mid, rname, rmin, rmax, rprice, rimg1, rimg2, rimg3, rtype, rbedroom, rrestroom, rdiningroom, rkitchen, rtheme, writedate from room where r=#{r} 
+		select r, a, mid, rname, rmin, rmax, rprice, rimg1, rimg2, rimg3, rtype, rbedroom, rrestroom, rdiningroom, rkitchen, rtheme, writedate 
+		from room where r=#{r} 
 	</select>
 	<update id="updateRoom" parameterType="com.checkin.webapp.room.model.RoomVO">
 		update room set rname=#{rname}, 
@@ -36,7 +37,5 @@
 		insert into room(r, a, mid, rname, rmin, rmax, rprice, rimg1, rimg2, rimg3, rtype, rbedroom, rdiningroom, rrestroom, rkitchen, rtheme, writedate)
 		values(roomsq.nextval, (select a from accomodation where mid=#{mid}), #{mid}, #{rname}, #{rmin}, #{rmax}, #{rprice}, #{rimg1}, #{rimg2}, #{rimg3}, #{rtype}, #{rbedroom}, #{rrestroom},#{rdiningroom}, #{rkitchen}, #{rtheme}, sysdate)
 	</insert>
-	<delete id="deleteRoom" parameterType="com.checkin.webapp.room.model.RoomVO">
-		delete from room where r=#{r}
-	</delete>
+
 </mapper>

@@ -28,6 +28,8 @@ public class ShowRoomListCommand implements RoomCommandInterface {
 
 	@Override
 	public ModelAndView execute(HttpServletRequest request) {
+		System.out.println("ShowRoomListCommand ... ing");
+		
 		ModelAndView mav = new ModelAndView();
 		String aStr = request.getParameter("a");
 		SimpleDateFormat mSimpleDateFormat = new SimpleDateFormat ( "yyyy/MM/dd", Locale.KOREA );

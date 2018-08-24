@@ -34,7 +34,7 @@ public class RoomController {
 	//일반사용자가 보는 룸리스트로 이동
 	@RequestMapping("/main/room/showList")
 	public ModelAndView showAllRoomList(HttpServletRequest request) {
-		
+		System.out.println("RoomController... showAllRoomList..");
 		return new ShowRoomListCommand().execute(request);
 	}
 		

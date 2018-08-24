@@ -14,5 +14,5 @@ public interface ReviewDAOInterface {
 	
 	public int insertReview(ReviewVO vo);
 	
-	
+	public int getReviewListCnt(ReviewVO vo);
 }
