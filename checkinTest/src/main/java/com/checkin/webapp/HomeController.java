@@ -57,6 +57,11 @@ public class HomeController {
 		return "master/first";
 	}
 
+	@RequestMapping(value="/error", method = RequestMethod.GET)
+	public String error(HttpServletRequest request) {
+		return "error";
+	}
+	
 //	@RequestMapping(value="/master", method = RequestMethod.GET)
 //	public ModelAndView masterMain(HttpServletRequest request) {
 //		return new ShowMasterMain().execute(request);
