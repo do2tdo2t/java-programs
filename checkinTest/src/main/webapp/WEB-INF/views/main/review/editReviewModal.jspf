@@ -5,12 +5,7 @@
 <style>		
 	#reviewFrm .review-item{margin:20px;} 
 </style>
-<script>
-	function whenclickwritemodal(b){
-		$("input[name=b]").val(b);
-	}
 
-</script>
 </head>
 <body>
   <!-- The Modal -->
@@ -21,12 +16,12 @@
         <div class="modal-header">
           <h4 class="modal-title">리뷰 수정</h4>
           <input type='text' value='${mid}' name='mid'/>
-         	   <input type='text' value='' name='b' />
+          <input type='text' class="b" value='' name='b' />
           <button type="button" class="close" data-dismiss="modal">&times;</button>
         </div>
         <!-- Modal body -->
         <div class="modal-body">
-         	<form id="reviewFrm" name="reviewFrm">
+         	<form id="reviewFrm" name="reviewFrm" method="post" action="/webapp/main/tryWriteReview" enctype="multipart/form-data">
             	<div class="form-group">
             		<div class= row>
             			<label class="col-sm-2">별점</label>

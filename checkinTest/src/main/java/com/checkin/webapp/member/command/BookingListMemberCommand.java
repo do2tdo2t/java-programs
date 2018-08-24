@@ -32,6 +32,10 @@ public class BookingListMemberCommand implements MemberCommandInterface {
 		List<BookingVO> lst = dao.selectAllBookingList(u);
 		System.out.println("dao완료");
 		
+		
+		//sql 작업으로 리뷰 작성 여부 가져오기
+		
+		
 		//mav 생성
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("lst",lst);

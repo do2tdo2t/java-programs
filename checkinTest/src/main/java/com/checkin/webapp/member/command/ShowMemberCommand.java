@@ -9,7 +9,7 @@ import com.checkin.webapp.Constants;
 import com.checkin.webapp.member.model.MemberDAOInterface;
 import com.checkin.webapp.member.model.MemberVO;
 
-public class showMemberCommand implements MemberCommandInterface {
+public class ShowMemberCommand implements MemberCommandInterface {
 
 	@Override
 	public ModelAndView execute(HttpServletRequest request, MemberVO vo) {

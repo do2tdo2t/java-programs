@@ -7,7 +7,7 @@ public class ReviewVO {
 	private int a; //숙박업소 시퀀스
 	private String mid; //가맹점주인 아이디
 	private int vgrade; //룸의 평점
-	private String vimg1; //사용자가 올린 이미지
+	private String vimg1=""; //사용자가 올린 이미지
 	private String vimg2; 
 	private String vimg3;
 	private String vcontent;//리뷰내용
@@ -20,6 +20,13 @@ public class ReviewVO {
 	
 	
 	
+	@Override
+	public String toString() {
+		return "ReviewVO [v=" + v + ", r=" + r + ", u=" + u + ", a=" + a + ", mid=" + mid + ", vgrade=" + vgrade
+				+ ", vimg1=" + vimg1 + ", vimg2=" + vimg2 + ", vimg3=" + vimg3 + ", vcontent=" + vcontent
+				+ ", writedate=" + writedate + ", vcurpage=" + vcurpage + ", vonepage=" + vonepage + ", uuid=" + uuid
+				+ "]";
+	}
 	public String getUuid() {
 		return uuid;
 	}

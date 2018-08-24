@@ -36,7 +36,14 @@
 	weight: 400px
 }
 </style>
+<script>
+	function whenclickwritemodal(b,a,r){
+		$(".b").val(b);
+		$(".a").val(a);
+		$(".r").val(r);
+	}
 
+</script>
 </head>
 <body>
 	<%@ include file="../topnav_member.jspf"%>
@@ -105,8 +112,14 @@
 				</table>
 				<div class="row" id="review_btns">
 					<span class="col-sm-5"></span>
-					<button id="writeBtn" onclick="whenclickwritemodal(${list.b})" data-toggle="modal" data-target="#reviewModal" class="btn col-sm-2 showreviewModal" style="background-color:#5284FF;color:#fff;font-weight:bold">리뷰작성</button>
-					<button id="editBtn" data-toggle="modal" data-target="#reviewModal_edit" class="btn col-sm-2 showreviewModal_edit" style="background-color:#5284FF;color:#fff;font-weight:bold">리뷰수정</button>
+					
+					
+					<c:if test="${list.v != 0}">
+					<button id='editBtn' data-toggle="modal" data-target="#reviewModal_edit" class="btn col-sm-2 showreviewModal_edit" style="background-color:#5284FF;color:#fff;font-weight:bold">리뷰수정</button>
+					</c:if>
+					<c:if test="${list.v == 0}">
+					<button id="writeBtn" onclick="whenclickwritemodal(${list.b},${list.a},${list.r})" data-toggle="modal" data-target="#reviewModal" class="btn col-sm-2 showreviewModal" style="background-color:#5284FF;color:#fff;font-weight:bold">리뷰작성</button>
+					</c:if>
 					<button id="cancleBtn" class="btn btn-danger col-sm-2">예약취소</button>
 				</div>
 			</div>

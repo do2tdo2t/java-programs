@@ -17,7 +17,7 @@ import com.checkin.webapp.member.command.RegisterOkMemberCommand;
 import com.checkin.webapp.member.command.TryModifyInfoCommand;
 import com.checkin.webapp.member.command.UidCheckCommand;
 import com.checkin.webapp.member.command.preModifyMemberCommand;
-import com.checkin.webapp.member.command.showMemberCommand;
+import com.checkin.webapp.member.command.ShowMemberCommand;
 import com.checkin.webapp.member.model.MemberVO;
 
 @Controller
@@ -77,7 +77,7 @@ public class MemberController {
 	// 매핑 경로 : /main/mypage/myInfo
 	@RequestMapping(value="/main/mypage/myInfo",method=RequestMethod.GET)
 	public ModelAndView showMember(HttpServletRequest request, MemberVO vo) {		
-		return new showMemberCommand().execute(request);
+		return new ShowMemberCommand().execute(request);
 	}
 		
 	//예약내역폼으로 이동

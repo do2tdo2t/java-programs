@@ -5,6 +5,13 @@ public class BookingVO {
 	private int r; //룸 시퀀스
 	private String u;//예약자 아이디
 	private int a; //숙밥업소 시퀀스
+	private int v; //리뷰 작성시 (리뷰 레코드 번호 ) 아닐시 0
+	public int getV() {
+		return v;
+	}
+	public void setV(int v) {
+		this.v = v;
+	}
 	private String mid; //가맹점주인 아이디
 	private String bcheckin; //입실시간(날짜YYYY-MM-DD)
 	private String bcheckout; //퇴실시간

@@ -160,7 +160,7 @@ var wrongMsg = "잘못 입력하셨습니다.";
 			<div class="font1-small" style="padding: 20px 0">
 				<a href="manageAccomodation.jsp">숙소 관리 페이지</a>
 			</div>
-			s
+			
 			<form id="dataform" class="form-horizontal font1-medium list-group"
 				method="post" onsubmit="return whenClickSubmitBtn()"
 				action="/webapp/master/insertOkAcco" enctype="multipart/form-data">
