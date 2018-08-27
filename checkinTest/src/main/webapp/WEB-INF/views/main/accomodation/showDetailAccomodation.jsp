@@ -19,11 +19,10 @@
 
 <!-- daterangepicker-->
 <!-- navermap api -->
-<!--  <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?clientId=Ve4ILimYsUbRNnlZeSVm&submodules=geocoder"></script>-->
+<script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?clientId=Ve4ILimYsUbRNnlZeSVm&submodules=geocoder"></script>
+
 <script src="/webapp/js/daterangepicker.js"></script>
-<!-- 
-<script src="/webapp/js/showDetailAccomodation.js"></script>
- --> 
+<!--  <script src="/webapp/js/showDetailAccomodation.js"></script> -->
 <link rel="stylesheet" href="/webapp/css/daterangepicker.css">
 <style>
 .historyImg {
@@ -60,29 +59,32 @@ label {
 <script>
 var onepage = 3;
 function whenclickbookingbtn(a,r){
-		
-	var u = '${u}';
-	var checkinout =  $("#acheckinout").val();
+	
+var u = '${u}';
+var checkinout =  $("#acheckinout").val();
+
+
+if(u == null || u == ''){
+	var result = confirm("로그인이 필요합니다. 로그인 페이지로 이동 하시겠습니까?",'Check in !');
+	if(result == true){
+		location.href="/webapp/main/login";
+	}
+}else{
 	var bcheckin = $("#checkin").val();
 	var bcheckout =  $("#checkout").val();
+	
 	if(bcheckin==bcheckout){
 		alert("날짜를 지정해주세요");
 		return false;
 	}
-	
-	 if(u != null || u != ''){
-		var result = confirm("로그인이 필요합니다. 로그인 페이지로 이동 하시겠습니까?",'Check in !');
+	 
+	var checkinout =  $("#checkin").val(); +" ~ " +  $("#checkout").val();
+	var people = $("#people").val();
+	var result = confirm(checkinout +" 날짜에  인원수 : "+ people+"\n\n 예약 하시겠습니까? 예를 누르면 예약 됩니다.");
 		if(result == true){
-			alert('이동');
+			ajax_booking(a,r,checkinout,people,u);				
 		}
-	}else{
-		var checkinout =  $("#checkin").val(); +" ~ " +  $("#checkout").val();
-		var people = $("#people").val();
-		var result = confirm(checkinout +" 날짜에  인원수 : "+ people+"\n\n 예약 하시겠습니까? 예를 누르면 예약 됩니다.");
-			if(result == true){
-				ajax_booking(a,r,checkinout,people,u);				
-			}
-		}
+	}
 }
 
 function ajax_booking(a,r,checkinout, people,u){
@@ -101,7 +103,10 @@ function ajax_booking(a,r,checkinout, people,u){
 		contentType : 'applicaiton/json;charset=UTF-8',
 		success : function(result) {
 			if(result > 0){
-				var isClickedOk = confirm("예약 되었습니다. 예약 페이지로 이동합니다. 아직 구현 안함~","Check in !");
+				var isClickedOk = confirm("예약 되었습니다. 예약 확인 페이지로 이동하시겠습니까?");
+				if(isClickedOk==true){
+					href.location="/webapp/main/mypage/bookingList";
+				}
 				//page 이동.
 			}else{
 				alert("죄송합니다. 예약에 실패 했습니다. 잠시 후 다시 시도 해 주세요.");
@@ -113,6 +118,7 @@ function ajax_booking(a,r,checkinout, people,u){
 			alert("죄송합니다. 예약에 실패 했습니다. 잠시 후 다시 시도 해 주세요.");
 		}
 	})
+	
 }
 
 //<!-- 클릭시 이미지 fa fa-caret-up 이걸로 바뀜 -->
@@ -177,7 +183,7 @@ function ajax_review(r,i){
 				var uuid = val.uuid;
 				var writedate = val.writedate;
 				var content = val.vcontent;
-				var img1 = val.img1;
+				var img1 = val.vimg1;
 				var html = '<div class="row" style="padding-left:20px; padding-right:20px">';
 				html +='<p class="col-sm-4 review-p border">';
 				html += '<label><i class="fa fa-thumbs-o-up"></i> 평점 : </label> <span class="grade">'+grade+'</span>';
@@ -210,6 +216,20 @@ function whenClickAccor(id){
 		accor.className = accor.className.replace(" w3-show"," w3-hide");
 	}
 }
+
+function pageReload(a){
+	var checkin = $("#checkin").val().replace(/-/gi,'/'); 
+	var checkout = $("#checkout").val().replace(/-/gi,'/');
+	
+	checkinout = checkin+'-'+checkout;
+	if(checkin==checkout){
+		alert("날짜를 지정해주세요");
+		return false;
+	}
+	alert(checkinout);
+	var url = "/webapp/main/room/showList?checkinout="+checkinout+"&a="+a;
+	location.href = url;
+}
 </script>
 
 <c:set var="accmoVO" value="${accoVO}" />
@@ -222,7 +242,7 @@ function whenClickAccor(id){
 
 		<!-- 왼쪽 필터 부분 -->
 		<aside class="left col-lg-3 font1-medium w3-container" id="left">
-			<nav class="w3-sidebar w3-light-grey w3-collapse w3-top w3-card-4" style="z-index: 3; width: 290px; padding:80px 10px 10px 10px;" id="mySidebar">
+			<nav class="w3-sidebar w3-light-grey w3-collapse w3-top" style="z-index: 3; width: 290px; padding:80px 10px 10px 10px;" id="mySidebar">
 				<!-- 정보 -->
 				<div class="w3-container w3-display-container w3-padding-16">
 					<i onclick="w3_close()" class="fa fa-remove w3-hide-large w3-button w3-transparent w3-display-topright"></i>
@@ -244,33 +264,62 @@ function whenClickAccor(id){
 							<i class="material-icons">call</i><span id=tel> ${accoVO.atel}</span>
 						</p>
 						<hr />
-						<form action="/action_page.php" target="_blank">
+						<div>
 							<p>
 								<i class="fa fa-calendar-check-o"> <label>체크인</label></i>
 							</p>
 							
-							<input type="date" class="w3-input w3-border" name="checkin" id="checkin" value='${checkin}' min="${session.today}"/> <br />
+							<input type="date" class="w3-input w3-border" name="checkin" id="checkin" value='${checkin}' min='${today}' /> <br />
 							<p>
 								<i class="fa fa-calendar-check-o"> <label>체크아웃</label></i>
 							</p>
 							
 							
-							<input type="date" class="w3-input w3-border" name="checkout" id="checkout" value='${checkout}' min ="${session.today}"/> <br />
+							<input type="date" class="w3-input w3-border" name="checkout" id="checkout" value='${checkout}' min ='${today}' /> <br />
 							<p>
 								<i class="fa fa-male"> <label>인원수</label></i>
 							</p>
 							<input class="w3-input w3-border" type="number" value="1" name="people" id="people" min="1" max="10"> <br />
 							<p>
-								<button class="w3-button w3-block w3-green w3-left-align" type="submit">
+								<button class="w3-button w3-block w3-green w3-left-align" onclick="pageReload(${accoVO.a})">
 									<i class="fa fa-search w3-margin-right"></i> Search availability
 								</button>
 							</p>
-						</form>
+						</div>
 					</div>
 				</div>
 
 				<!-- 내가 본 상품 -->
+			<!-- 
+				<div class="w3-bar-block ">
+					<label>이전에 본 상품</label>
+					<div id="history" class="carousel slide" data-ride="carousel">
+						
+						<ul class="carousel-indicators">
+							<li data-target="#history" data-slide-to="0" class="active"></li>
+							<li data-target="#history" data-slide-to="1"></li>
+							<li data-target="#history" data-slide-to="2"></li>
+						</ul>
+						<div class="carousel-inner">
+							<div class="carousel-item active">
+								<img src="../img/accomodation/hotel01.PNG" class="historyImg rounded">
+							</div>
+							<div class="carousel-item">
+								<img src="../img/accomodation/hotel02.PNG" class="historyImg rounded">
+							</div>
+							<div class="carousel-item">
+								<img src="../img/accomodation/hotel03.PNG" class="historyImg rounded">
+							</div>
+						</div>
 
+					
+						<a class="carousel-control-prev" href="#history" data-slide="prev"> <span class="carousel-control-prev-icon"></span>
+						</a> <a class="carousel-control-next" href="#history" data-slide="next"> <span class="carousel-control-next-icon"></span>
+						</a>
+					</div>
+					
+				</div>
+				 -->
 				<div class="block"></div>
 			</nav>
 		</aside>
@@ -297,9 +346,9 @@ function whenClickAccor(id){
 				<strong>숙소 위치 보기</strong>
 			</button>
 			<div id="map" class="border w3-show" style="width: 100%; height: 300px;">
-	<!--		<script>
+				<script>
 					var map1 = new naver.maps.Map('map');
-					var myaddress = '${accoVO.agil}';// 도로명 주소나 지번 주소만 가능 (건물명 불가!!!!)
+					var myaddress = ${accoVO.agil};// 도로명 주소나 지번 주소만 가능 (건물명 불가!!!!)
 					naver.maps.Service
 							.geocode(
 									{
@@ -344,7 +393,7 @@ function whenClickAccor(id){
 												'    <h3 style="text-align:center">${accomVO.aname}</h3>',
 												'    <div style="text-align:center">[전화번호 : ${accomVO.atel}]</div>',
 												'    <div style="text-align:center">[별점 : ★★★★☆]</div>',
-												'    <img src="#" width="200" height="100" style="padding:5px"/>',
+												'    <img src="../img/accomodation/home1.jpg" width="200" height="100" style="padding:5px"/>',
 												'</div>'
 
 										].join('');
@@ -364,7 +413,7 @@ function whenClickAccor(id){
 															20, -20)
 												});
 									});
-				</script>  -->	
+				</script>
 			</div>
 
 
@@ -377,7 +426,7 @@ function whenClickAccor(id){
 				<c:forEach items ="${list}" var ="vo" varStatus="status">
 				<input type="hidden" id="r" value="${vo.r}" />
 				<input type="hidden" id="a" value="${vo.a}" />
-				<div class="border row rounded w3-card-4" style="margin-top:20px">
+				<div class="border row rounded" style="margin-top:20px">
 					<!-- 이미지 DIV 시작 -->
 					<div id="ImgDiv1" class="container carousel slide col-lg-4" data-ride="carousel">
 						<!-- Indicators -->
@@ -390,13 +439,13 @@ function whenClickAccor(id){
 						<!-- The slide show -->
 						<div class="carousel-inner">
 							<div class="carousel-item active">
-								<img src="#" class="roomsImg rounded"  onerror="this.src='/webapp/img/1.png'">
+								<img src="${vo.rimg1}" class="roomsImg rounded">
 							</div>
 							<div class="carousel-item">
-								<img src="#" class="roomsImg rounded"  onerror="this.src='/webapp/img/1.png'">
+								<img src="${vo.rimg2}" class="roomsImg rounded">
 							</div>
 							<div class="carousel-item">
-								<img src="#" class="roomsImg rounded"  onerror="this.src='/webapp/img/1.png'">
+								<img src="${vo.rimg3}" class="roomsImg rounded">
 							</div>
 						</div>
 
@@ -462,16 +511,16 @@ function whenClickAccor(id){
 							<div class="col-sm-5"></div>
 
 							<div class="col-sm-4"></div>
-					
-							<c:if test="${bookingVO[status.index]==0}">
+						
+								<c:if test="${bookingVO[status.index].wasBooking == 0 or bookingVO[status.index].cancel == 1 }">
+									<input type="button" value="예약하기" class="btn form-control col-sm-3 btn-success" onclick="whenclickbookingbtn(${vo.a},${vo.r})"/>
+								</c:if>
+	
+								<c:if test="${bookingVO[status.index].wasBooking > 0 and bookingVO[status.index].cancel != 1}">
 								
-								<input type="button" value="예약하기" class="btn form-control col-sm-3 btn-success" onclick="whenclickbookingbtn(${vo.a},${vo.r})"/>
-							</c:if>
-
-							<c:if test="${bookingVO[status.index] > 0}">
-							
-								<input type="button" value="예약 완료" class="btn form-control col-sm-3 btn-success" disabled/>
-							</c:if>
+									<input type="button" value="예약 완료" class="btn form-control col-sm-3 btn-success" disabled/>
+								</c:if>
+					
 						</div>
 						<!-- 버튼 폼 끝 -->
 					
@@ -510,6 +559,5 @@ function whenClickAccor(id){
 			<%@ include file="../companyInfo.jspf"%>
 		</footer>
 	</div>
-
 </body>
 </html>

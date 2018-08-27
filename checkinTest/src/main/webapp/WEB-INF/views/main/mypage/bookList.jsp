@@ -1,6 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page trimDirectiveWhitespaces="true"%>
+<jsp:useBean id="now" class="java.util.Date" />
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -80,10 +83,19 @@
 			}
 		})
 	}
-
+	function whenclickcancle(b){
+		var result = confirm("정말 예약을 취소 하시겠습니까? ");
+		if(result == true){
+			url = "/webapp/main/mypage/trycanclebooking?b="+b;
+			location.href=url;
+		}
+		
+	}
 </script>
 </head>
 <body>
+<fmt:formatDate value="${now}" pattern="yy/MM/dd" var="nowDate" />
+
 	<%@ include file="../topnav_member.jspf"%>
 	<!-- 
    본문은 left center right으로 나뉜다.
@@ -103,9 +115,9 @@
 			<!-- 홈 > 회원가입 -->
 			<span class="font1-small">홈>마이페이지>예약내역</span>
 			<hr />
-			<c:forEach var="list" items="${lst }">
+		<c:forEach var="list" items="${lst }">
 				<!-- 예약 현황 리스트 시작 -->
-	<div>
+		<div>
 		<!-- 예약 현황 1 시작 -->
 		<div class="input-group">
 			<div class="input-group-item col-lg-3 border">
@@ -151,13 +163,25 @@
 				<div class="row"id="review_btns">
 					<span class="col-sm-5"> </span>
 					
-					<c:if test="${list.v != 0}">
-					<button id='editBtn' onclick="whenclickviewmodal(${list.v})" type="button" class="btn btn-secondary col-sm-2 showreviewModal_edit" style="font-weight:bold">리뷰보기</button>
+					<fmt:parseDate value="${list.bcheckin}" pattern="YY/MM/dd" var="checkin" />
+					<fmt:parseDate value="${list.bcheckout}" pattern="YY/MM/dd" var="checkout" />
+					
+					<c:if test="${list.cancel != 1}">
+						<c:if test="${list.v != 0}">
+						<button id='editBtn' onclick="whenclickviewmodal(${list.v})" type="button" class="btn btn-secondary col-sm-2 showreviewModal_edit" style="font-weight:bold">리뷰보기</button>
+						</c:if>
+						<c:if test="${list.v == 0}">
+							<c:if test ="${nowDate >= checkin }">
+							<button id="writeBtn" onclick="whenclickwritemodal(${list.b},${list.a},${list.r},'${list.bcheckin}','${list.bcheckout }')" data-toggle="modal" data-target="#reviewModal" class="btn btn-primary col-sm-2 showreviewModal" style="font-weight:bold; padding-left:10px">리뷰작성</button>
+							</c:if>
+						</c:if>
+						<c:if test ="${nowDate < checkin }">
+						<button id="cancleBtn" class="btn btn-danger col-sm-2" style="margin-left:10px" onclick='whenclickcancle(${list.b})'>예약취소</button>
+						</c:if>
 					</c:if>
-					<c:if test="${list.v == 0}">
-					<button id="writeBtn" onclick="whenclickwritemodal(${list.b},${list.a},${list.r},'${list.bcheckin}','${list.bcheckout }')" data-toggle="modal" data-target="#reviewModal" class="btn btn-primary col-sm-2 showreviewModal" style="font-weight:bold; padding-left:10px">리뷰작성</button>
+					<c:if test ="${list.cancel == 1}">
+						<span style="color:grey">최소된 예약 입니다.</span>
 					</c:if>
-					<button id="cancleBtn" class="btn btn-danger col-sm-2" style="margin-left:10px">예약취소</button>
 				</div>
 			</div>
 		</div>
@@ -165,8 +189,8 @@
 	</div>
 	<!-- 예약 현황 리스트 끝 -->
 
-				<br/>
-			</c:forEach>			
+	<br/>
+	</c:forEach>			
 		</div>
 		<aside class="left" id="left"></aside>
 		<!-- footer -->

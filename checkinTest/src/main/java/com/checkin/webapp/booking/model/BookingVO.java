@@ -22,7 +22,7 @@ public class BookingVO {
 	
 	private int bcurpage; //현재 페이지
 	private int bonepage; //한 페이지에 보여질 리스트 개수
-	
+	private int wasBooking;
 
 	//===============예약내역확인======================
 	private String atel;//예약 숙소 연락처
@@ -37,6 +37,12 @@ public class BookingVO {
 	
 	public int getBcurpage() {
 		return bcurpage;
+	}
+	public int getWasBooking() {
+		return wasBooking;
+	}
+	public void setWasBooking(int wasBooking) {
+		this.wasBooking = wasBooking;
 	}
 	public String getAtel() {
 		return atel;
