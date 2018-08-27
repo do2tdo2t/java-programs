@@ -3,7 +3,7 @@ package com.checkin.webapp.review.model;
 public class ReviewVO {
 	private int v; //리뷰시퀀스
 	private int r; //룸시퀀스
-	private String u; //사용자아이디
+	private int u; //사용자아이디
 	private int a; //숙박업소 시퀀스
 	private int b;
 	private String mid; //가맹점주인 아이디
@@ -14,8 +14,8 @@ public class ReviewVO {
 	private String vcontent;//리뷰내용
 	private String writedate;//작성날짜
 	
-	private int vcurpage=10; //현재 페이지
-	private int vonepage=1; //한 페이지에 보여질 리스트 개수
+	private int vcurpage=1; //현재 페이지
+	private int vonepage=10; //한 페이지에 보여질 리스트 개수
 	
 	private String uuid; //사용자아이디
 	private String bcheckin;
@@ -91,11 +91,11 @@ public class ReviewVO {
 	public void setR(int r) {
 		this.r = r;
 	}
-	public String getU() {
+	public int getU() {
 		return u;
 	}
-	public void setU(String u) {
-		this.u =u;
+	public void setUid(int u) {
+		this.u = u;
 	}
 	public int getA() {
 		return a;

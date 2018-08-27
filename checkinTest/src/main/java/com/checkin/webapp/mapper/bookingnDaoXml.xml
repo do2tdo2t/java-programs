@@ -54,4 +54,12 @@
 	</select>
 	
 	
+	<select id="selectAllBookingListMaster" resultType="com.checkin.webapp.booking.model.BookingVO">
+		select r.rname, m.uname, b.bcount, m.utel, to_char(b.bcheckin,'YYYY-MM-dd') bcheckin, to_char(b.bcheckout,'YYYY-MM-dd') bcheckout, to_char(b.writedate,'YYYY-MM_dd') writedate 
+		from booking b join member m on b.u=m.u join room r on b.r=r.r 
+		where b.mid=#{mid}
+		order by bcheckin
+	</select>
+	
+	
 </mapper>
