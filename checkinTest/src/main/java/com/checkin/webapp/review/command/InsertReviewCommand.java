@@ -30,12 +30,13 @@ public class InsertReviewCommand implements ReviewCommandInterface {
 	public ModelAndView execute(HttpServletRequest request,ReviewVO vo , MultipartFile file1) {
 		String folder = request.getSession().getServletContext().getRealPath("/img");
 		
-		System.out.println("InsertReview..."+vo.toString());
+		
 		ModelAndView mav = new ModelAndView();
 		
 		String newFileName = inputFile(folder, file1);
 		if(newFileName!=null)
 			vo.setVimg1("/webapp/img/"+newFileName);
+		System.out.println("InsertReview..."+vo.toString());
 		
 		//dao
 		//file 넣는 작업
@@ -43,7 +44,7 @@ public class InsertReviewCommand implements ReviewCommandInterface {
 		int result = dao.insertReview(vo);
 		if(result > 0) {
 			//updateVRecordBooking
-			dao.updateVRecordBooking(vo);
+			//dao.updateVRecordBooking(vo);
 			
 			mav.setViewName("redirect:/master/mypage/bookList");
 		}else {
@@ -84,8 +85,6 @@ public class InsertReviewCommand implements ReviewCommandInterface {
 	public String inputFile( String folder,MultipartFile file) {
 		
 		String newFileName = null;
-		// String argName2 = file2.getName();
-		// String argName3 = file3.getName();
 
 		try {
 			if (file != null) {

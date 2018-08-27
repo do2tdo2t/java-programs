@@ -12,8 +12,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.checkin.webapp.review.command.EditReviewCommand;
 import com.checkin.webapp.review.command.InsertReviewCommand;
 import com.checkin.webapp.review.command.SelectListCommand;
+import com.checkin.webapp.review.command.SelectReviewAjaxCommand;
 import com.checkin.webapp.review.command.SelectReviewListAjaxCommand;
 import com.checkin.webapp.review.command.SelectReviewsCntAjaxCommand;
 import com.checkin.webapp.review.model.ReviewVO;
@@ -46,7 +48,7 @@ public class ReviewController {
 	
 	@RequestMapping("/main/getReivews")
 	@ResponseBody
-	public List<ReviewVO> selectReviewAjax(HttpServletRequest request, ReviewVO vo){
+	public List<ReviewVO> selectReviewListAjax(HttpServletRequest request, ReviewVO vo){
 		return new SelectReviewListAjaxCommand().executeAjax(request,vo);
 	}
 	
@@ -61,5 +63,17 @@ public class ReviewController {
 		return new InsertReviewCommand().execute(request,vo,file1);
 	}
 	
+	@RequestMapping("/main/mypage/getReview")
+	@ResponseBody
+	public ReviewVO selectReviewAjax(HttpServletRequest request, ReviewVO vo){
+		return new SelectReviewAjaxCommand().executeAjax(request,vo);
+	}
+	
+	
+	@RequestMapping(value="/main/mypage/tryEditReview",method=RequestMethod.POST)
+	public ModelAndView editReview(HttpServletRequest request, ReviewVO vo, MultipartFile file1) {
+		System.out.println("ReviewController... editReview.. "+vo.toString());
+		return new EditReviewCommand().execute(request,vo,file1);
+	}
 	
 }

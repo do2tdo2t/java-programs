@@ -37,10 +37,48 @@
 }
 </style>
 <script>
-	function whenclickwritemodal(b,a,r){
+	function whenclickwritemodal(b,a,r,checkin,checkout){
 		$(".b").val(b);
 		$(".a").val(a);
 		$(".r").val(r);
+		$(".checkin").val(checkin);
+		$(".checkout").val(checkout);
+		$("#content").val('');
+		$("#file").val('');
+		
+	}
+	
+	function whenclickviewmodal(v){
+		$(".view").css("display","block");
+		$(".edit").css("display","none");
+		$("#editimgbtn").css("display","block");
+		
+		var params = "v="+v;
+		$.ajax({
+			type:"get",
+			url : "/webapp/main/mypage/getReview",
+			data : params,
+			dataType : 'json',
+			contentType:'application/json;charset=UTF-8',
+			success: function(result){
+				//var $result = $(result);
+				$("#revieweditFrm .v").val(v);
+				$("#revieweditFrm .content").text(result.vcontent);
+				var grade = result.vgrade;
+				$("#revieweditFrm .grade").text(grade);
+				if(grade!=null && grade != 0)
+					$(document).find('option[name='+grade+']').attr('selected','selected');
+				
+				var img1 = result.vimg1;
+				img1 = img1.split('/')[3];
+				$("#revieweditFrm .img1").text(img1);
+				$("#reviewModal_edit").modal('show');
+				$("#revieweditFrm #eimg1").attr('src',result.vimg1);
+			},error:function(error){
+				alert("죄송합니다. 리뷰 읽어 오기에 실패 했습니다.");
+				console.log(error.responseText);
+			}
+		})
 	}
 
 </script>
@@ -110,17 +148,16 @@
 						</tr>
 					</tbody>
 				</table>
-				<div class="row" id="review_btns">
-					<span class="col-sm-5"></span>
-					
+				<div class="row"id="review_btns">
+					<span class="col-sm-5"> </span>
 					
 					<c:if test="${list.v != 0}">
-					<button id='editBtn' data-toggle="modal" data-target="#reviewModal_edit" class="btn col-sm-2 showreviewModal_edit" style="background-color:#5284FF;color:#fff;font-weight:bold">리뷰수정</button>
+					<button id='editBtn' onclick="whenclickviewmodal(${list.v})" type="button" class="btn btn-secondary col-sm-2 showreviewModal_edit" style="font-weight:bold">리뷰보기</button>
 					</c:if>
 					<c:if test="${list.v == 0}">
-					<button id="writeBtn" onclick="whenclickwritemodal(${list.b},${list.a},${list.r})" data-toggle="modal" data-target="#reviewModal" class="btn col-sm-2 showreviewModal" style="background-color:#5284FF;color:#fff;font-weight:bold">리뷰작성</button>
+					<button id="writeBtn" onclick="whenclickwritemodal(${list.b},${list.a},${list.r},'${list.bcheckin}','${list.bcheckout }')" data-toggle="modal" data-target="#reviewModal" class="btn btn-primary col-sm-2 showreviewModal" style="font-weight:bold; padding-left:10px">리뷰작성</button>
 					</c:if>
-					<button id="cancleBtn" class="btn btn-danger col-sm-2">예약취소</button>
+					<button id="cancleBtn" class="btn btn-danger col-sm-2" style="margin-left:10px">예약취소</button>
 				</div>
 			</div>
 		</div>
